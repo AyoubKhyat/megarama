@@ -10,7 +10,18 @@ import {
   Vignette,
 } from "@react-three/postprocessing";
 import { BlendFunction } from "postprocessing";
-import * as THREE from "three";
+import {
+  Points,
+  Group,
+  Mesh,
+  ShaderMaterial,
+  MeshBasicMaterial,
+  AdditiveBlending,
+  DoubleSide,
+  ACESFilmicToneMapping,
+  Color,
+  Vector2,
+} from "three";
 
 // ---------------------------------------------------------------------------
 // Scroll-responsive camera
@@ -47,7 +58,7 @@ function ScrollCamera() {
 // ---------------------------------------------------------------------------
 
 function CinemaParticles({ count = 800 }) {
-  const mesh = useRef<THREE.Points>(null);
+  const mesh = useRef<Points>(null);
 
   const { positions, colors, sizes } = useMemo(() => {
     const pos = new Float32Array(count * 3);
@@ -107,7 +118,7 @@ function CinemaParticles({ count = 800 }) {
         transparent
         opacity={0.7}
         sizeAttenuation
-        blending={THREE.AdditiveBlending}
+        blending={AdditiveBlending}
         depthWrite={false}
       />
     </points>
@@ -119,8 +130,8 @@ function CinemaParticles({ count = 800 }) {
 // ---------------------------------------------------------------------------
 
 function CinemaScreen() {
-  const screenRef = useRef<THREE.Group>(null);
-  const lightConeRef = useRef<THREE.Mesh>(null);
+  const screenRef = useRef<Group>(null);
+  const lightConeRef = useRef<Mesh>(null);
 
   useFrame((state) => {
     if (!screenRef.current) return;
@@ -129,7 +140,7 @@ function CinemaScreen() {
     screenRef.current.position.y = Math.sin(t * 0.4) * 0.15 + 0.5;
 
     if (lightConeRef.current) {
-      const mat = lightConeRef.current.material as THREE.MeshBasicMaterial;
+      const mat = lightConeRef.current.material as MeshBasicMaterial;
       mat.opacity = 0.06 + Math.sin(t * 2) * 0.02;
     }
   });
@@ -169,8 +180,8 @@ function CinemaScreen() {
           color="#ffe4c4"
           transparent
           opacity={0.06}
-          side={THREE.DoubleSide}
-          blending={THREE.AdditiveBlending}
+          side={DoubleSide}
+          blending={AdditiveBlending}
           depthWrite={false}
         />
       </mesh>
@@ -182,8 +193,8 @@ function CinemaScreen() {
           color="#e31837"
           transparent
           opacity={0.03}
-          side={THREE.DoubleSide}
-          blending={THREE.AdditiveBlending}
+          side={DoubleSide}
+          blending={AdditiveBlending}
           depthWrite={false}
         />
       </mesh>
@@ -215,7 +226,7 @@ function PosterCard({
   color: string;
   delay: number;
 }) {
-  const groupRef = useRef<THREE.Group>(null);
+  const groupRef = useRef<Group>(null);
 
   useFrame((state) => {
     if (!groupRef.current) return;
@@ -281,16 +292,16 @@ function PosterCard({
 // ---------------------------------------------------------------------------
 
 function NebulaBackground() {
-  const meshRef = useRef<THREE.Mesh>(null);
-  const materialRef = useRef<THREE.ShaderMaterial>(null);
+  const meshRef = useRef<Mesh>(null);
+  const materialRef = useRef<ShaderMaterial>(null);
 
   const shader = useMemo(
     () => ({
       uniforms: {
         uTime: { value: 0 },
-        uColor1: { value: new THREE.Color("#1a0000") },
-        uColor2: { value: new THREE.Color("#e31837") },
-        uColor3: { value: new THREE.Color("#0a0a1a") },
+        uColor1: { value: new Color("#1a0000") },
+        uColor2: { value: new Color("#e31837") },
+        uColor3: { value: new Color("#0a0a1a") },
       },
       vertexShader: `
         varying vec2 vUv;
@@ -396,7 +407,7 @@ function FilmReelRing({
   size: number;
   speed: number;
 }) {
-  const meshRef = useRef<THREE.Mesh>(null);
+  const meshRef = useRef<Mesh>(null);
 
   useFrame((state) => {
     if (!meshRef.current) return;
@@ -426,7 +437,7 @@ function FilmReelRing({
 // ---------------------------------------------------------------------------
 
 function LightOrbs() {
-  const groupRef = useRef<THREE.Group>(null);
+  const groupRef = useRef<Group>(null);
 
   const orbs = useMemo(
     () =>
@@ -462,7 +473,7 @@ function LightOrbs() {
             color={i % 2 === 0 ? "#e31837" : "#ff6b4a"}
             transparent
             opacity={0.15}
-            blending={THREE.AdditiveBlending}
+            blending={AdditiveBlending}
           />
         </mesh>
       ))}
@@ -485,7 +496,7 @@ function Effects() {
       />
       <ChromaticAberration
         blendFunction={BlendFunction.NORMAL}
-        offset={new THREE.Vector2(0.0008, 0.0008)}
+        offset={new Vector2(0.0008, 0.0008)}
       />
       <Vignette
         eskil={false}
@@ -517,7 +528,7 @@ export default function Scene3D() {
           alpha: true,
           antialias: true,
           powerPreference: "high-performance",
-          toneMapping: THREE.ACESFilmicToneMapping,
+          toneMapping: ACESFilmicToneMapping,
           toneMappingExposure: 1.2,
         }}
         dpr={[1, 1.5]}

@@ -17,11 +17,14 @@ import MobileBottomNav from "@/components/MobileBottomNav";
 import LiveStats from "@/components/LiveStats";
 import useIsDesktop from "@/hooks/useIsDesktop";
 
-const Scene3D = dynamic(() => import("@/components/Scene3D"), { ssr: false });
-const BookingSection = dynamic(() => import("@/components/BookingSection"));
-const ComingSoon = dynamic(() => import("@/components/ComingSoon"));
-const Reviews = dynamic(() => import("@/components/Reviews"));
-const ExperienceSection = dynamic(() => import("@/components/ExperienceSection"));
+const Scene3D = dynamic(() => import("@/components/Scene3D"), {
+  ssr: false,
+  loading: () => null,
+});
+const BookingSection = dynamic(() => import("@/components/BookingSection"), { loading: () => null });
+const ComingSoon = dynamic(() => import("@/components/ComingSoon"), { loading: () => null });
+const Reviews = dynamic(() => import("@/components/Reviews"), { loading: () => null });
+const ExperienceSection = dynamic(() => import("@/components/ExperienceSection"), { loading: () => null });
 const StorytellingSection = dynamic(() => import("@/components/StorytellingSection"));
 const IMAXSection = dynamic(() => import("@/components/IMAXSection"));
 const SnacksSection = dynamic(() => import("@/components/SnacksSection"));

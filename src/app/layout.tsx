@@ -14,6 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://marrakech.megarama.ma"),
   title: "MEGARAMA Marrakech | Experience Cinema Like Never Before",
   description:
     "Megarama Marrakech - The ultimate cinematic experience. IMAX, 4DX, premium comfort, and the latest movies in Marrakech, Morocco.",
@@ -60,6 +61,10 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}
     >
       <head>
+        <link rel="preconnect" href="https://www.youtube.com" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://www.youtube.com" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

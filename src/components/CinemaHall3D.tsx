@@ -4,7 +4,13 @@ import { useRef, useState, useMemo, useCallback, Component } from "react";
 import type { ReactNode, ErrorInfo } from "react";
 import { Canvas, useFrame, ThreeEvent } from "@react-three/fiber";
 import { OrbitControls, Float } from "@react-three/drei";
-import * as THREE from "three";
+import {
+  Mesh,
+  MeshStandardMaterial,
+  MathUtils,
+  FrontSide,
+  ACESFilmicToneMapping,
+} from "three";
 
 class Canvas3DErrorBoundary extends Component<
   { children: ReactNode; fallback: ReactNode },
@@ -65,7 +71,7 @@ const FLOOR_SLOPE = 0.12; // height increase per row
 // ---------------------------------------------------------------------------
 
 function Seat({ seatId, position, isSelected, isTaken, onToggle }: SeatProps) {
-  const meshRef = useRef<THREE.Mesh>(null);
+  const meshRef = useRef<Mesh>(null);
   const [hovered, setHovered] = useState(false);
 
   const color = useMemo(() => {
@@ -88,8 +94,8 @@ function Seat({ seatId, position, isSelected, isTaken, onToggle }: SeatProps) {
 
   useFrame(() => {
     if (!meshRef.current) return;
-    const mat = meshRef.current.material as THREE.MeshStandardMaterial;
-    mat.emissiveIntensity = THREE.MathUtils.lerp(
+    const mat = meshRef.current.material as MeshStandardMaterial;
+    mat.emissiveIntensity = MathUtils.lerp(
       mat.emissiveIntensity,
       emissiveIntensity,
       0.1
@@ -141,11 +147,11 @@ function Seat({ seatId, position, isSelected, isTaken, onToggle }: SeatProps) {
 // ---------------------------------------------------------------------------
 
 function CinemaScreen() {
-  const meshRef = useRef<THREE.Mesh>(null);
+  const meshRef = useRef<Mesh>(null);
 
   useFrame((state) => {
     if (!meshRef.current) return;
-    const mat = meshRef.current.material as THREE.MeshStandardMaterial;
+    const mat = meshRef.current.material as MeshStandardMaterial;
     mat.emissiveIntensity = 0.4 + Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
   });
 
@@ -156,7 +162,7 @@ function CinemaScreen() {
         color="#111122"
         emissive="#4488ff"
         emissiveIntensity={0.4}
-        side={THREE.FrontSide}
+        side={FrontSide}
         roughness={0.1}
         metalness={0.8}
       />
@@ -433,7 +439,7 @@ export default function CinemaHall3D({
             gl={{ antialias: true, alpha: false }}
             onCreated={({ gl }) => {
               gl.setClearColor("#000000");
-              gl.toneMapping = THREE.ACESFilmicToneMapping;
+              gl.toneMapping = ACESFilmicToneMapping;
               gl.toneMappingExposure = 1.2;
             }}
           >
