@@ -122,7 +122,15 @@ export default function LoyaltyCard() {
 
   return (
     <section id="loyalty" ref={sectionRef} className="relative py-32 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-mega-dark via-black to-mega-dark" />
+      {/* Megacarte promotional background */}
+      <div className="absolute inset-0">
+        <img
+          src="https://marrakech.megarama.ma/public/contenus/195f3eedbbe9b8da01ecf6c87e046b10/images/megacarte-web240f4--w1265-h650-rcrop.jpg"
+          alt="Megacarte Loyalty Program"
+          className="absolute inset-0 w-full h-full object-cover opacity-10"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-mega-dark via-black/90 to-mega-dark" />
+      </div>
       <div className="absolute top-1/4 right-0 w-[400px] h-[400px] bg-mega-gold/5 rounded-full blur-[120px]" />
       <div className="absolute bottom-1/4 left-0 w-[300px] h-[300px] bg-mega-red/5 rounded-full blur-[100px]" />
 

@@ -10,58 +10,64 @@ gsap.registerPlugin(ScrollTrigger);
 
 const movies = [
   {
-    title: "The Dark Horizon",
-    genre: "Sci-Fi / Thriller",
-    duration: "2h 28min",
+    title: "The Mandalorian & Grogu",
+    genre: "Sci-Fi / Adventure",
+    duration: "2h 05min",
     language: "EN / AR",
-    rating: "8.4",
+    rating: "8.2",
     showtimes: ["14:30", "17:00", "20:30", "23:00"],
     color: "from-blue-900/40",
+    poster: "https://marrakech.megarama.ma/public/films/affiches/342_456/0757p10250016523bb35.jpg",
   },
   {
-    title: "Crimson Veil",
-    genre: "Horror / Mystery",
-    duration: "1h 52min",
+    title: "Toy Story 5",
+    genre: "Animation / Family",
+    duration: "1h 40min",
     language: "FR / AR",
-    rating: "7.9",
-    showtimes: ["15:00", "18:30", "21:00"],
-    color: "from-red-900/40",
-  },
-  {
-    title: "Golden Empire",
-    genre: "Action / Adventure",
-    duration: "2h 15min",
-    language: "EN / FR",
-    rating: "8.1",
-    showtimes: ["13:00", "16:30", "19:00", "22:00"],
+    rating: "8.5",
+    showtimes: ["13:00", "15:30", "18:00"],
     color: "from-amber-900/40",
+    poster: "https://marrakech.megarama.ma/public/films/affiches/342_456/0757p1025001607c278e.jpg",
   },
   {
-    title: "Whispers of Atlas",
-    genre: "Drama / Romance",
-    duration: "2h 05min",
-    language: "AR / FR",
-    rating: "8.7",
-    showtimes: ["14:00", "17:30", "20:00"],
-    color: "from-emerald-900/40",
-  },
-  {
-    title: "Neon Uprising",
-    genre: "Cyberpunk / Action",
+    title: "Spider-Man: Brand New Day",
+    genre: "Action / Superhero",
     duration: "2h 20min",
-    language: "EN",
-    rating: "8.3",
-    showtimes: ["15:30", "19:00", "22:30"],
-    color: "from-purple-900/40",
+    language: "EN / FR",
+    rating: "8.7",
+    showtimes: ["14:00", "17:30", "20:00", "22:30"],
+    color: "from-red-900/40",
+    poster: "https://marrakech.megarama.ma/public/films/affiches/342_456/0757p102500161368854.jpg",
   },
   {
-    title: "Desert Storm",
-    genre: "War / Drama",
-    duration: "2h 40min",
-    language: "AR / EN",
-    rating: "9.0",
-    showtimes: ["16:00", "20:00"],
+    title: "Scary Movie",
+    genre: "Comedy / Horror",
+    duration: "1h 52min",
+    language: "EN / AR",
+    rating: "7.4",
+    showtimes: ["16:00", "19:00", "22:00"],
+    color: "from-purple-900/40",
+    poster: "https://marrakech.megarama.ma/public/films/affiches/342_456/0757p10260017326124f.jpg",
+  },
+  {
+    title: "Le Virtuose",
+    genre: "Drama / Music",
+    duration: "2h 10min",
+    language: "FR / AR",
+    rating: "8.0",
+    showtimes: ["15:00", "18:30", "21:00"],
+    color: "from-emerald-900/40",
+    poster: "https://marrakech.megarama.ma/public/films/affiches/342_456/0757p1026001726e9455.jpg",
+  },
+  {
+    title: "Evil Dead Burn",
+    genre: "Horror / Thriller",
+    duration: "1h 48min",
+    language: "EN",
+    rating: "7.8",
+    showtimes: ["20:30", "23:00"],
     color: "from-orange-900/40",
+    poster: "https://marrakech.megarama.ma/public/films/affiches/342_456/0757p1026001729c5d12.jpg",
   },
 ];
 
@@ -118,10 +124,12 @@ function MovieCard({
         <div
           className={`relative h-[420px] md:h-[480px] rounded-2xl overflow-hidden bg-gradient-to-br ${movie.color} to-black border border-white/10 transition-all duration-500 ${isHovered ? "border-[#e31837]/50 shadow-[0_0_40px_rgba(227,24,55,0.3)]" : ""}`}
         >
-          {/* Movie poster visual placeholder */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-6xl opacity-30">🎬</div>
-          </div>
+          {/* Movie poster */}
+          <img
+            src={movie.poster}
+            alt={movie.title}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
 
           {/* Trailer play button overlay on hover */}
           <motion.div

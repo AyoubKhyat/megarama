@@ -286,14 +286,7 @@ export default function HeroSection() {
           transition={{ duration: 1.5, delay: 3 }}
           style={{ x: poster1X, y: poster1Y, transformStyle: "preserve-3d" }}
         >
-          <div className="w-full h-full bg-gradient-to-br from-mega-red/30 to-black border border-white/10 flex items-center justify-center">
-            <div className="text-center p-4">
-              <div className="text-3xl mb-2">🎬</div>
-              <p className="text-[10px] tracking-widest text-white/60 uppercase">
-                Coming Soon
-              </p>
-            </div>
-          </div>
+          <img src="https://marrakech.megarama.ma/public/films/affiches/342_456/0757p10250016523bb35.jpg" alt="Movie Poster" className="w-full h-full object-cover" />
         </motion.div>
 
         <motion.div
@@ -303,14 +296,7 @@ export default function HeroSection() {
           transition={{ duration: 1.5, delay: 3.3 }}
           style={{ x: poster2X, y: poster2Y, transformStyle: "preserve-3d" }}
         >
-          <div className="w-full h-full bg-gradient-to-br from-purple-900/40 to-black border border-white/10 flex items-center justify-center">
-            <div className="text-center p-4">
-              <div className="text-3xl mb-2">🎥</div>
-              <p className="text-[10px] tracking-widest text-white/60 uppercase">
-                Now Showing
-              </p>
-            </div>
-          </div>
+          <img src="https://marrakech.megarama.ma/public/films/affiches/342_456/0757p1025001607c278e.jpg" alt="Movie Poster" className="w-full h-full object-cover" />
         </motion.div>
 
         <motion.div
@@ -320,14 +306,7 @@ export default function HeroSection() {
           transition={{ duration: 1.5, delay: 3.6 }}
           style={{ x: poster3X, y: poster3Y, transformStyle: "preserve-3d" }}
         >
-          <div className="w-full h-full bg-gradient-to-br from-blue-900/30 to-black border border-white/10 flex items-center justify-center">
-            <div className="text-center p-4">
-              <div className="text-3xl mb-2">🎞️</div>
-              <p className="text-[10px] tracking-widest text-white/60 uppercase">
-                Exclusive
-              </p>
-            </div>
-          </div>
+          <img src="https://marrakech.megarama.ma/public/films/affiches/342_456/0757p102500161368854.jpg" alt="Movie Poster" className="w-full h-full object-cover" />
         </motion.div>
 
         <motion.div
@@ -337,14 +316,7 @@ export default function HeroSection() {
           transition={{ duration: 1.5, delay: 3.9 }}
           style={{ x: poster4X, y: poster4Y, transformStyle: "preserve-3d" }}
         >
-          <div className="w-full h-full bg-gradient-to-br from-amber-900/30 to-black border border-white/10 flex items-center justify-center">
-            <div className="text-center p-4">
-              <div className="text-3xl mb-2">🍿</div>
-              <p className="text-[10px] tracking-widest text-white/60 uppercase">
-                Premiere
-              </p>
-            </div>
-          </div>
+          <img src="https://marrakech.megarama.ma/public/films/affiches/342_456/0757p10260017158c056.jpg" alt="Movie Poster" className="w-full h-full object-cover" />
         </motion.div>
       </div>
 

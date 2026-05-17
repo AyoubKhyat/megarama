@@ -36,27 +36,28 @@ export default function ContactSection() {
             viewport={{ once: true }}
             className="relative aspect-square lg:aspect-auto lg:h-full min-h-[400px] rounded-2xl overflow-hidden border border-white/10"
           >
-            <div className="absolute inset-0 bg-mega-charcoal flex items-center justify-center">
-              <div className="text-center">
-                <motion.div
-                  animate={{ scale: [1, 1.1, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                  className="text-5xl mb-4"
-                >
-                  📍
-                </motion.div>
-                <p className="text-lg font-bold mb-2">Megarama Marrakech</p>
-                <p className="text-sm text-white/40">
-                  Avenue Mohammed VI, Marrakech
-                </p>
-                <a
-                  href="https://maps.google.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block mt-4 px-6 py-2 border border-mega-red/50 text-mega-red text-xs tracking-widest uppercase rounded-full hover:bg-mega-red hover:text-white transition-all duration-300"
-                >
-                  Open in Maps
-                </a>
+            <div className="absolute inset-0">
+              <img
+                src="https://marrakech.megarama.ma/cine-themes/megarama/269/img/cinema-megarama.jpg?=20251221"
+                alt="Megarama Marrakech Cinema"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/30" />
+              <div className="relative h-full flex items-center justify-center">
+                <div className="text-center">
+                  <p className="text-lg font-bold mb-2">Megarama Marrakech</p>
+                  <p className="text-sm text-white/60">
+                    Avenue Mohammed VI, Marrakech
+                  </p>
+                  <a
+                    href="https://maps.google.com/?q=Megarama+Marrakech+Morocco"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block mt-4 px-6 py-2 border border-mega-red/50 text-mega-red text-xs tracking-widest uppercase rounded-full hover:bg-mega-red hover:text-white transition-all duration-300"
+                  >
+                    Open in Maps
+                  </a>
+                </div>
               </div>
             </div>
             {/* Grid pattern overlay */}
@@ -103,15 +104,15 @@ export default function ContactSection() {
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
                   <span className="text-lg">📞</span>
-                  <span className="text-white/80">+212 5 24 XX XX XX</span>
+                  <span className="text-white/80">+212 5 24 43 59 72</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="text-lg">✉️</span>
-                  <span className="text-white/80">contact@megarama.ma</span>
+                  <span className="text-white/80">marrakech@megarama.ma</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="text-lg">🌐</span>
-                  <span className="text-white/80">www.megarama.ma</span>
+                  <span className="text-white/80">marrakech.megarama.ma</span>
                 </div>
               </div>
             </div>

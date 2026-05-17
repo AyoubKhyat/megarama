@@ -419,15 +419,14 @@ export default function LoadingScreen() {
             className="absolute inset-0 flex items-center justify-center opacity-0 scale-90"
           >
             <div className="text-center relative">
-              <h1
-                className="text-5xl md:text-8xl font-bold tracking-[0.3em] text-white"
+              <img
+                src="https://marrakech.megarama.ma/public/fichiers/logo-site/cinemas-megarama.png"
+                alt="Megarama"
+                className="h-16 md:h-24 w-auto mx-auto"
                 style={{
-                  textShadow:
-                    "0 0 40px rgba(227,24,55,0.5), 0 0 80px rgba(227,24,55,0.2)",
+                  filter: "drop-shadow(0 0 40px rgba(227,24,55,0.5)) drop-shadow(0 0 80px rgba(227,24,55,0.2))",
                 }}
-              >
-                MEGA<span className="text-[#e31837]">RAMA</span>
-              </h1>
+              />
               <div
                 className="mt-3 h-[1px] mx-auto"
                 style={{

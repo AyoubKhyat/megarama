@@ -12,9 +12,11 @@ export default function Footer() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
           >
-            <span className="text-2xl font-bold tracking-[0.2em]">
-              MEGA<span className="text-mega-red">RAMA</span>
-            </span>
+            <img
+              src="https://marrakech.megarama.ma/public/fichiers/logo-site/cinemas-megarama.png"
+              alt="Megarama"
+              className="h-8 w-auto"
+            />
             <p className="text-xs text-white/30 mt-2 tracking-wider">
               MARRAKECH • MOROCCO
             </p>

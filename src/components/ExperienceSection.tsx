@@ -336,7 +336,16 @@ export default function ExperienceSection() {
               style={{ perspective: "1000px" }}
             >
               <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10 neon-glow-box">
-                <div className="absolute inset-0 bg-gradient-to-br from-mega-charcoal to-black flex items-center justify-center">
+                <div className="absolute inset-0">
+                  {/* Cinema venue background image */}
+                  <img
+                    src="https://marrakech.megarama.ma/cine-themes/megarama/269/img/cinema-megarama.jpg?=20251221"
+                    alt="Megarama Marrakech Cinema"
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/40" />
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center">
                   {/* Pulsing play button */}
                   <div className="relative">
                     <motion.div

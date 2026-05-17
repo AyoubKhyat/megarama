@@ -36,9 +36,11 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <a href="#" className="flex items-center gap-2">
-            <span className="text-xl font-bold tracking-[0.2em]">
-              MEGA<span className="text-mega-red">RAMA</span>
-            </span>
+            <img
+              src="https://marrakech.megarama.ma/public/fichiers/logo-site/cinemas-megarama.png"
+              alt="Megarama"
+              className="h-8 w-auto"
+            />
           </a>
 
           <div className="hidden md:flex items-center gap-8">
