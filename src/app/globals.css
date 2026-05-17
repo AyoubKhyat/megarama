@@ -306,3 +306,14 @@ body {
 .pulse-glow {
   animation: pulseGlow 2s ease-in-out infinite;
 }
+
+/* Shimmer animation for skeleton loaders */
+@keyframes shimmer {
+  0% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+  100% { opacity: 0.3; }
+}
+
+.animate-shimmer {
+  animation: shimmer 1.5s ease-in-out infinite;
+}

@@ -16,8 +16,6 @@ import LazySection from "@/components/LazySection";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import LiveStats from "@/components/LiveStats";
 import useIsDesktop from "@/hooks/useIsDesktop";
-import { BookingProvider } from "@/context/BookingContext";
-import { LanguageProvider } from "@/i18n";
 
 const Scene3D = dynamic(() => import("@/components/Scene3D"), { ssr: false });
 const BookingSection = dynamic(() => import("@/components/BookingSection"));
@@ -36,8 +34,6 @@ export default function Home() {
   const isDesktop = useIsDesktop();
 
   return (
-    <LanguageProvider>
-    <BookingProvider>
       <SmoothScroll>
         <LoadingScreen />
         <CustomCursor />
@@ -90,7 +86,5 @@ export default function Home() {
           <Footer />
         </LazySection>
       </SmoothScroll>
-    </BookingProvider>
-    </LanguageProvider>
   );
 }

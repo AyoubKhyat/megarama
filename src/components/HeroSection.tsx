@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, useSpring, useMotionValue, useTransform } from "framer-motion";
+import Image from "next/image";
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -243,10 +244,10 @@ export default function HeroSection() {
           className="absolute top-[15%] left-[8%] w-44 h-64"
         >
           <motion.div
-            className="parallax-poster w-full h-full rounded-lg overflow-hidden shadow-2xl"
+            className="parallax-poster relative w-full h-full rounded-lg overflow-hidden shadow-2xl"
             style={{ x: poster1X, y: poster1Y, rotateY: -15, transformStyle: "preserve-3d" }}
           >
-            <img src="/images/posters/john-wick.jpg" alt="John Wick: Chapter 4" className="w-full h-full object-cover" />
+            <Image src="/images/posters/john-wick.jpg" alt="John Wick: Chapter 4" fill sizes="176px" className="object-cover" placeholder="blur" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPj/HwADBwIAMCbHYQAAAABJRU5ErkJggg==" />
           </motion.div>
         </div>
 
@@ -255,10 +256,10 @@ export default function HeroSection() {
           className="absolute top-[20%] right-[10%] w-48 h-72"
         >
           <motion.div
-            className="parallax-poster w-full h-full rounded-lg overflow-hidden shadow-2xl"
+            className="parallax-poster relative w-full h-full rounded-lg overflow-hidden shadow-2xl"
             style={{ x: poster2X, y: poster2Y, rotateY: 12, transformStyle: "preserve-3d" }}
           >
-            <img src="/images/posters/deadpool.jpg" alt="Deadpool & Wolverine" className="w-full h-full object-cover" />
+            <Image src="/images/posters/deadpool.jpg" alt="Deadpool & Wolverine" fill sizes="192px" className="object-cover" placeholder="blur" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN88P9/PQAJhAN8xBicSgAAAABJRU5ErkJggg==" />
           </motion.div>
         </div>
 
@@ -267,10 +268,10 @@ export default function HeroSection() {
           className="absolute bottom-[20%] left-[15%] w-40 h-56"
         >
           <motion.div
-            className="parallax-poster w-full h-full rounded-lg overflow-hidden shadow-2xl"
+            className="parallax-poster relative w-full h-full rounded-lg overflow-hidden shadow-2xl"
             style={{ x: poster3X, y: poster3Y, rotateY: -8, transformStyle: "preserve-3d" }}
           >
-            <img src="/images/posters/nosferatu.jpg" alt="Nosferatu" className="w-full h-full object-cover" />
+            <Image src="/images/posters/nosferatu.jpg" alt="Nosferatu" fill sizes="160px" className="object-cover" placeholder="blur" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==" />
           </motion.div>
         </div>
 
@@ -279,10 +280,10 @@ export default function HeroSection() {
           className="absolute bottom-[25%] right-[12%] w-36 h-52"
         >
           <motion.div
-            className="parallax-poster w-full h-full rounded-lg overflow-hidden shadow-2xl"
+            className="parallax-poster relative w-full h-full rounded-lg overflow-hidden shadow-2xl"
             style={{ x: poster4X, y: poster4Y, rotateY: 10, transformStyle: "preserve-3d" }}
           >
-            <img src="/images/posters/gladiator-2.jpg" alt="Gladiator II" className="w-full h-full object-cover" />
+            <Image src="/images/posters/gladiator-2.jpg" alt="Gladiator II" fill sizes="144px" className="object-cover" placeholder="blur" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk4P9fDwAEGAIBLiu1RAAAAABJRU5ErkJggg==" />
           </motion.div>
         </div>
       </div>

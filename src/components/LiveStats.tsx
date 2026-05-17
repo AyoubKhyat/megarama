@@ -1,65 +1,15 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import AnimatedCounter from "@/components/AnimatedCounter";
 
 const stats = [
-  { label: "Tickets Sold Today", target: 2847, prefix: "", suffix: "+" },
-  { label: "Happy Visitors This Week", target: 18420, prefix: "", suffix: "" },
-  { label: "Average Rating", target: 4.6, prefix: "", suffix: "/5" },
-  { label: "Movies Showing", target: 12, prefix: "", suffix: "" },
+  { label: "Tickets Sold Today", target: 2847, suffix: "+" },
+  { label: "Happy Visitors This Week", target: 18420, suffix: "" },
+  { label: "Average Rating", target: 4.6, suffix: "/5" },
+  { label: "Movies Showing", target: 12, suffix: "" },
 ];
-
-function AnimatedCounter({
-  target,
-  prefix,
-  suffix,
-  inView,
-}: {
-  target: number;
-  prefix: string;
-  suffix: string;
-  inView: boolean;
-}) {
-  const [count, setCount] = useState(0);
-  const hasAnimated = useRef(false);
-
-  useEffect(() => {
-    if (!inView || hasAnimated.current) return;
-    hasAnimated.current = true;
-
-    const isDecimal = target % 1 !== 0;
-    const duration = 2000;
-    const steps = 60;
-    const increment = target / steps;
-    let current = 0;
-    let step = 0;
-
-    const timer = setInterval(() => {
-      step++;
-      const progress = step / steps;
-      const eased = 1 - Math.pow(1 - progress, 3);
-      current = target * eased;
-
-      if (step >= steps) {
-        setCount(target);
-        clearInterval(timer);
-      } else {
-        setCount(isDecimal ? parseFloat(current.toFixed(1)) : Math.floor(current));
-      }
-    }, duration / steps);
-
-    return () => clearInterval(timer);
-  }, [inView, target]);
-
-  const display = target % 1 !== 0 ? count.toFixed(1) : count.toLocaleString();
-
-  return (
-    <span className="text-3xl md:text-4xl font-bold text-white">
-      {prefix}{display}{suffix}
-    </span>
-  );
-}
 
 export default function LiveStats() {
   const ref = useRef<HTMLDivElement>(null);
@@ -82,7 +32,6 @@ export default function LiveStats() {
             >
               <AnimatedCounter
                 target={stat.target}
-                prefix={stat.prefix}
                 suffix={stat.suffix}
                 inView={inView}
               />

@@ -3,9 +3,11 @@
 import { useRef, useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import LiveIndicator from "@/components/LiveIndicator";
+import TrailerModal from "@/components/TrailerModal";
 import { useBooking } from "@/context/BookingContext";
 import { movies, type Movie } from "@/data/movies";
 import { useTranslation } from "@/i18n";
@@ -21,6 +23,7 @@ function MovieCard({
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [trailerOpen, setTrailerOpen] = useState(false);
   const { selectMovie } = useBooking();
   const t = useTranslation();
 
@@ -91,6 +94,7 @@ function MovieCard({
             <motion.button
               animate={isHovered ? { scale: [0.8, 1] } : { scale: 0.8 }}
               transition={{ duration: 0.3 }}
+              onClick={() => setTrailerOpen(true)}
               className="w-18 h-18 rounded-full bg-[#e31837]/90 flex items-center justify-center backdrop-blur-sm border-2 border-white/20 hover:bg-[#e31837] transition-colors cursor-pointer"
               aria-label={`${t.nowShowing.playTrailer} ${movie.title}`}
             >
@@ -113,7 +117,9 @@ function MovieCard({
 
           {/* Bottom info */}
           <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black via-black/80 to-transparent">
-            <h3 className="text-lg md:text-xl font-bold text-white mb-1">{movie.title}</h3>
+            <Link href={`/movies/${movie.slug}`} className="hover:text-[#e31837] transition-colors">
+              <h3 className="text-lg md:text-xl font-bold text-white mb-1">{movie.title}</h3>
+            </Link>
             <div className="flex items-center gap-3 text-xs text-white/50">
               <span className="neon-glow">{movie.genre}</span>
               <span className="w-1 h-1 rounded-full bg-mega-red" />
@@ -145,6 +151,13 @@ function MovieCard({
           </div>
         </div>
       </div>
+
+      <TrailerModal
+        isOpen={trailerOpen}
+        onClose={() => setTrailerOpen(false)}
+        trailerUrl={movie.trailerUrl}
+        movieTitle={movie.title}
+      />
     </div>
   );
 }
