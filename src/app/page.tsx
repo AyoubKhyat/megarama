@@ -6,6 +6,7 @@ import CustomCursor from "@/components/CustomCursor";
 import AmbientAudio from "@/components/AmbientAudio";
 import LoadingScreen from "@/components/LoadingScreen";
 import Navbar from "@/components/Navbar";
+
 import HeroSection from "@/components/HeroSection";
 import NowShowing from "@/components/NowShowing";
 import FilmReelTransition from "@/components/FilmReelTransition";
@@ -41,6 +42,7 @@ export default function Home() {
         <SocialProof />
         <AmbientAudio />
         <div className="film-grain" />
+
         <Navbar />
         <MobileBottomNav />
         <SectionDots />

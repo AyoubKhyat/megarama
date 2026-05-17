@@ -7,41 +7,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Letter animation variants with physics-based spring
-const letterVariants = {
-  hidden: { opacity: 0, y: 80, rotateX: -90, scale: 0.5 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    rotateX: 0,
-    scale: 1,
-    transition: {
-      type: "spring" as const,
-      stiffness: 150,
-      damping: 12,
-      mass: 0.8,
-      delay: 1.8 + i * 0.08,
-    },
-  }),
-};
-
-// Word reveal variants for subtitle
-const wordVariants = {
-  hidden: { opacity: 0, y: 20, filter: "blur(8px)" },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: {
-      type: "spring" as const,
-      stiffness: 100,
-      damping: 15,
-      delay: 2.8 + i * 0.15,
-    },
-  }),
-};
-
-// Magnetic button component
 function MagneticButton({
   children,
   href,
@@ -102,13 +67,11 @@ export default function HeroSection() {
   const titleLetters = "MEGARAMA".split("");
   const subtitleWords = ["Experience", "cinema", "like", "never", "before."];
 
-  // Mouse parallax
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const smoothMouseX = useSpring(mouseX, { stiffness: 50, damping: 30 });
   const smoothMouseY = useSpring(mouseY, { stiffness: 50, damping: 30 });
 
-  // Parallax transforms for floating posters
   const poster1X = useTransform(smoothMouseX, [-0.5, 0.5], [-40, 40]);
   const poster1Y = useTransform(smoothMouseY, [-0.5, 0.5], [-30, 30]);
   const poster2X = useTransform(smoothMouseX, [-0.5, 0.5], [30, -30]);
@@ -123,7 +86,6 @@ export default function HeroSection() {
     const hero = heroRef.current;
     if (!hero) return;
 
-    // Mouse move handler for spotlight and parallax
     const handleMouseMove = (e: MouseEvent) => {
       const { clientX, clientY } = e;
       const { width, height } = hero.getBoundingClientRect();
@@ -142,7 +104,6 @@ export default function HeroSection() {
 
     hero.addEventListener("mousemove", handleMouseMove);
 
-    // Scroll-driven progress indicator
     ScrollTrigger.create({
       trigger: hero,
       start: "top top",
@@ -151,7 +112,6 @@ export default function HeroSection() {
         if (progressRef.current) {
           progressRef.current.style.transform = `scaleX(${self.progress})`;
         }
-        // Dynamic spotlight that follows scroll position
         if (scrollSpotlightRef.current) {
           const yPos = self.progress * 100;
           scrollSpotlightRef.current.style.top = `${yPos}%`;
@@ -180,9 +140,8 @@ export default function HeroSection() {
         />
       </div>
 
-      {/* Animated gradient mesh background (Apple-style) */}
+      {/* Animated gradient mesh background */}
       <div className="absolute inset-0 bg-mega-dark overflow-hidden">
-        {/* Gradient blob 1 */}
         <div
           className="absolute w-[800px] h-[800px] rounded-full opacity-30 blur-[120px]"
           style={{
@@ -192,7 +151,6 @@ export default function HeroSection() {
             animation: "meshBlob1 15s ease-in-out infinite",
           }}
         />
-        {/* Gradient blob 2 */}
         <div
           className="absolute w-[600px] h-[600px] rounded-full opacity-20 blur-[100px]"
           style={{
@@ -202,7 +160,6 @@ export default function HeroSection() {
             animation: "meshBlob2 18s ease-in-out infinite",
           }}
         />
-        {/* Gradient blob 3 */}
         <div
           className="absolute w-[500px] h-[500px] rounded-full opacity-15 blur-[80px]"
           style={{
@@ -212,7 +169,6 @@ export default function HeroSection() {
             animation: "meshBlob3 20s ease-in-out infinite",
           }}
         />
-        {/* Dark cinema vignette overlay */}
         <div
           className="absolute inset-0"
           style={{
@@ -279,99 +235,94 @@ export default function HeroSection() {
 
       {/* Floating 3D movie posters with parallax */}
       <div className="absolute inset-0 pointer-events-none perspective-[1000px]">
-        <motion.div
-          className="parallax-poster absolute top-[15%] left-[8%] w-32 h-48 md:w-44 md:h-64 rounded-lg overflow-hidden shadow-2xl"
-          initial={{ opacity: 0, scale: 0.8, rotateY: -15 }}
-          animate={{ opacity: 0.7, scale: 1, rotateY: -15 }}
-          transition={{ duration: 1.5, delay: 3 }}
-          style={{ x: poster1X, y: poster1Y, transformStyle: "preserve-3d" }}
+        <div
+          data-hero-poster
+          className="absolute top-[15%] left-[8%] w-32 h-48 md:w-44 md:h-64"
         >
-          <img src="/images/posters/mandalorian.jpg" alt="Movie Poster" className="w-full h-full object-cover" />
-        </motion.div>
+          <motion.div
+            className="parallax-poster w-full h-full rounded-lg overflow-hidden shadow-2xl"
+            style={{ x: poster1X, y: poster1Y, rotateY: -15, transformStyle: "preserve-3d" }}
+          >
+            <img src="/images/posters/mandalorian.jpg" alt="Movie Poster" className="w-full h-full object-cover" />
+          </motion.div>
+        </div>
 
-        <motion.div
-          className="parallax-poster absolute top-[20%] right-[10%] w-36 h-52 md:w-48 md:h-72 rounded-lg overflow-hidden shadow-2xl"
-          initial={{ opacity: 0, scale: 0.8, rotateY: 12 }}
-          animate={{ opacity: 0.6, scale: 1, rotateY: 12 }}
-          transition={{ duration: 1.5, delay: 3.3 }}
-          style={{ x: poster2X, y: poster2Y, transformStyle: "preserve-3d" }}
+        <div
+          data-hero-poster
+          className="absolute top-[20%] right-[10%] w-36 h-52 md:w-48 md:h-72"
         >
-          <img src="/images/posters/toy-story-5.jpg" alt="Movie Poster" className="w-full h-full object-cover" />
-        </motion.div>
+          <motion.div
+            className="parallax-poster w-full h-full rounded-lg overflow-hidden shadow-2xl"
+            style={{ x: poster2X, y: poster2Y, rotateY: 12, transformStyle: "preserve-3d" }}
+          >
+            <img src="/images/posters/toy-story-5.jpg" alt="Movie Poster" className="w-full h-full object-cover" />
+          </motion.div>
+        </div>
 
-        <motion.div
-          className="parallax-poster absolute bottom-[20%] left-[15%] w-28 h-40 md:w-40 md:h-56 rounded-lg overflow-hidden shadow-2xl hidden md:block"
-          initial={{ opacity: 0, scale: 0.8, rotateY: -8 }}
-          animate={{ opacity: 0.5, scale: 1, rotateY: -8 }}
-          transition={{ duration: 1.5, delay: 3.6 }}
-          style={{ x: poster3X, y: poster3Y, transformStyle: "preserve-3d" }}
+        <div
+          data-hero-poster
+          className="absolute bottom-[20%] left-[15%] w-28 h-40 md:w-40 md:h-56 hidden md:block"
         >
-          <img src="/images/posters/spiderman.jpg" alt="Movie Poster" className="w-full h-full object-cover" />
-        </motion.div>
+          <motion.div
+            className="parallax-poster w-full h-full rounded-lg overflow-hidden shadow-2xl"
+            style={{ x: poster3X, y: poster3Y, rotateY: -8, transformStyle: "preserve-3d" }}
+          >
+            <img src="/images/posters/spiderman.jpg" alt="Movie Poster" className="w-full h-full object-cover" />
+          </motion.div>
+        </div>
 
-        <motion.div
-          className="parallax-poster absolute bottom-[25%] right-[12%] w-32 h-44 md:w-36 md:h-52 rounded-lg overflow-hidden shadow-2xl hidden md:block"
-          initial={{ opacity: 0, scale: 0.8, rotateY: 10 }}
-          animate={{ opacity: 0.4, scale: 1, rotateY: 10 }}
-          transition={{ duration: 1.5, delay: 3.9 }}
-          style={{ x: poster4X, y: poster4Y, transformStyle: "preserve-3d" }}
+        <div
+          data-hero-poster
+          className="absolute bottom-[25%] right-[12%] w-32 h-44 md:w-36 md:h-52 hidden md:block"
         >
-          <img src="/images/posters/hero-4.jpg" alt="Movie Poster" className="w-full h-full object-cover" />
-        </motion.div>
+          <motion.div
+            className="parallax-poster w-full h-full rounded-lg overflow-hidden shadow-2xl"
+            style={{ x: poster4X, y: poster4Y, rotateY: 10, transformStyle: "preserve-3d" }}
+          >
+            <img src="/images/posters/hero-4.jpg" alt="Movie Poster" className="w-full h-full object-cover" />
+          </motion.div>
+        </div>
       </div>
 
       {/* Main content */}
       <div className="relative z-10 text-center px-4">
         {/* Subtitle above title */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 1.5, ease: [0.77, 0, 0.175, 1] }}
-          className="mb-4"
-        >
+        <div data-hero-subtitle className="mb-4">
           <span className="text-xs md:text-sm tracking-[0.5em] text-mega-red/80 uppercase">
             Marrakech&apos;s Premier Cinema
           </span>
-        </motion.div>
+        </div>
 
         {/* Letter-by-letter MEGARAMA title */}
         <h1 className="text-6xl md:text-[8rem] lg:text-[10rem] font-bold tracking-tighter leading-none mb-6 neon-glow flex items-center justify-center">
           {titleLetters.map((letter, i) => (
-            <motion.span
+            <span
               key={i}
-              custom={i}
-              variants={letterVariants}
-              initial="hidden"
-              animate="visible"
+              data-hero-letter
               className={i < 4 ? "text-white inline-block" : "text-mega-red inline-block"}
               style={{ display: "inline-block" }}
             >
               {letter}
-            </motion.span>
+            </span>
           ))}
         </h1>
 
         {/* Word-by-word subtitle reveal */}
         <p className="text-lg md:text-xl text-white/50 tracking-wide max-w-xl mx-auto mb-10 flex items-center justify-center gap-[0.35em] flex-wrap">
           {subtitleWords.map((word, i) => (
-            <motion.span
+            <span
               key={i}
-              custom={i}
-              variants={wordVariants}
-              initial="hidden"
-              animate="visible"
+              data-hero-word
               className="inline-block"
             >
               {word}
-            </motion.span>
+            </span>
           ))}
         </p>
 
         {/* Magnetic CTA buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 3.5 }}
+        <div
+          data-hero-cta
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <MagneticButton
@@ -386,14 +337,12 @@ export default function HeroSection() {
           >
             Book Tickets
           </MagneticButton>
-        </motion.div>
+        </div>
       </div>
 
       {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 4.5, duration: 1 }}
+      <div
+        data-hero-scroll
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
         <span className="text-[10px] tracking-[0.3em] text-white/30 uppercase">
@@ -404,7 +353,7 @@ export default function HeroSection() {
           transition={{ duration: 1.5, repeat: Infinity }}
           className="w-[1px] h-8 bg-gradient-to-b from-mega-red to-transparent"
         />
-      </motion.div>
+      </div>
 
       {/* Inline keyframes for gradient mesh animation */}
       <style jsx>{`

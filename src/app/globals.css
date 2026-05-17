@@ -243,6 +243,16 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+/* Hero intro initial states — hidden until GSAP reveals them */
+@media (prefers-reduced-motion: no-preference) {
+  [data-hero-subtitle] { opacity: 0; transform: translateY(30px); }
+  [data-hero-letter] { opacity: 0; transform: translateY(80px) rotateX(-90deg) scale(0.5); }
+  [data-hero-word] { opacity: 0; transform: translateY(20px); filter: blur(8px); }
+  [data-hero-cta] { opacity: 0; transform: translateY(20px); }
+  [data-hero-poster] { opacity: 0; transform: scale(0.8); }
+  [data-hero-scroll] { opacity: 0; }
+}
+
 /* Loading screen */
 .loading-screen {
   position: fixed;

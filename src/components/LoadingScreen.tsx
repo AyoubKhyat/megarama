@@ -19,12 +19,11 @@ export default function LoadingScreen() {
   const countdownNumberRef = useRef<HTMLDivElement>(null);
   const countdownCircleRef = useRef<SVGSVGElement>(null);
   const lensFlareRef = useRef<HTMLDivElement>(null);
+  const logoImgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        onComplete: () => setIsComplete(true),
-      });
+      const tl = gsap.timeline();
 
       // Stage 1: Black screen (0.5s)
       tl.to({}, { duration: 0.5 });
@@ -149,11 +148,208 @@ export default function LoadingScreen() {
       });
 
       // Hold on logo briefly
-      tl.to({}, { duration: 0.6 });
+      tl.to({}, { duration: 0.3 });
+
+      // Fade out extras (divider + "Marrakech" text) before handoff
+      const logoContent = logoRef.current?.querySelector('.text-center');
+      const extras = logoContent
+        ? Array.from(logoContent.children).slice(1)
+        : [];
+      if (extras.length) {
+        tl.to(extras, { opacity: 0, y: -5, duration: 0.2 });
+      }
+
+      tl.to({}, { duration: 0.1 });
+
+      // ── TRANSITION: Logo flies from center to navbar ─────────
+      tl.call(() => {
+        requestAnimationFrame(() => {
+          const logoImg = logoImgRef.current;
+          const navTarget = document.querySelector("[data-navbar-logo]");
+          if (!logoImg || !navTarget) {
+            gsap.set(
+              "[data-hero-subtitle],[data-hero-letter],[data-hero-word],[data-hero-cta],[data-hero-poster],[data-hero-scroll]",
+              { opacity: 1, y: 0, rotateX: 0, scale: 1, filter: "blur(0px)" }
+            );
+            window.dispatchEvent(new Event("logoTransitionComplete"));
+            setIsComplete(true);
+            return;
+          }
+
+          if (
+            window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ) {
+            gsap.set(
+              "[data-hero-subtitle],[data-hero-letter],[data-hero-word],[data-hero-cta],[data-hero-poster],[data-hero-scroll]",
+              { opacity: 1, y: 0, rotateX: 0, scale: 1, filter: "blur(0px)" }
+            );
+            window.dispatchEvent(new Event("logoTransitionComplete"));
+            setIsComplete(true);
+            return;
+          }
+
+          const imgRect = logoImg.getBoundingClientRect();
+          const targetRect = navTarget.getBoundingClientRect();
+          const scaleRatio = targetRect.height / imgRect.height;
+          const dx =
+            targetRect.left +
+            targetRect.width / 2 -
+            (imgRect.left + imgRect.width / 2);
+          const dy =
+            targetRect.top +
+            targetRect.height / 2 -
+            (imgRect.top + imgRect.height / 2);
+
+          const container = containerRef.current;
+          if (container) {
+            container.style.pointerEvents = "none";
+          }
+
+          gsap.set(logoImg, { filter: "blur(0px) brightness(1)" });
+
+          const trans = gsap.timeline({
+            onComplete: () => setIsComplete(true),
+          });
+
+          // Logo flight (1.3s, power4.inOut)
+          trans.to(
+            logoImg,
+            {
+              x: dx,
+              y: dy,
+              scale: scaleRatio,
+              duration: 1.3,
+              ease: "power4.inOut",
+            },
+            0.1
+          );
+
+          // Motion blur ramp up then down
+          trans.fromTo(
+            logoImg,
+            { filter: "blur(0px) brightness(1)" },
+            {
+              filter: "blur(4px) brightness(1.3)",
+              duration: 0.3,
+              ease: "power2.in",
+            },
+            0.1
+          );
+          trans.to(
+            logoImg,
+            {
+              filter: "blur(0px) brightness(1)",
+              duration: 0.3,
+              ease: "power2.out",
+            },
+            0.85
+          );
+
+          // Container background fade — reveals hero beneath
+          if (container) {
+            trans.to(
+              container,
+              {
+                backgroundColor: "transparent",
+                duration: 0.4,
+                ease: "power2.out",
+              },
+              0.5
+            );
+          }
+
+          // ── HERO REVEAL ──────────────────────────────────────
+          const heroSubtitle = document.querySelector("[data-hero-subtitle]");
+          const heroLetters = document.querySelectorAll("[data-hero-letter]");
+          const heroWords = document.querySelectorAll("[data-hero-word]");
+          const heroCTA = document.querySelector("[data-hero-cta]");
+          const heroPosters = document.querySelectorAll("[data-hero-poster]");
+          const heroScroll = document.querySelector("[data-hero-scroll]");
+
+          trans.addLabel("reveal", 0.8);
+
+          if (heroSubtitle) {
+            trans.to(
+              heroSubtitle,
+              { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
+              "reveal"
+            );
+          }
+          if (heroLetters.length) {
+            trans.to(
+              heroLetters,
+              {
+                opacity: 1,
+                y: 0,
+                rotateX: 0,
+                scale: 1,
+                stagger: 0.05,
+                duration: 0.4,
+                ease: "back.out(1.5)",
+              },
+              "reveal+=0.05"
+            );
+          }
+          if (heroWords.length) {
+            trans.to(
+              heroWords,
+              {
+                opacity: 1,
+                y: 0,
+                filter: "blur(0px)",
+                stagger: 0.06,
+                duration: 0.35,
+                ease: "power2.out",
+              },
+              "reveal+=0.15"
+            );
+          }
+          const posterOpacities = [0.7, 0.6, 0.5, 0.4];
+          if (heroPosters.length) {
+            heroPosters.forEach((poster, i) => {
+              trans.to(
+                poster,
+                {
+                  opacity: posterOpacities[i] ?? 0.5,
+                  scale: 1,
+                  duration: 0.7,
+                  ease: "power2.out",
+                },
+                `reveal+=${0.2 + i * 0.1}`
+              );
+            });
+          }
+          if (heroCTA) {
+            trans.to(
+              heroCTA,
+              { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
+              "reveal+=0.4"
+            );
+          }
+
+          // Logo lands at navbar
+          trans.call(
+            () => {
+              window.dispatchEvent(new Event("logoTransitionComplete"));
+            },
+            undefined,
+            1.4
+          );
+          trans.to(logoImg, { opacity: 0, duration: 0.15 }, 1.4);
+
+          if (heroScroll) {
+            trans.to(
+              heroScroll,
+              { opacity: 1, duration: 0.5, ease: "power2.out" },
+              "reveal+=0.7"
+            );
+          }
+        });
+      });
 
     }, containerRef);
 
-    return () => ctx.revert();
+    return () => {};
   }, []);
 
   return (
@@ -163,7 +359,7 @@ export default function LoadingScreen() {
           ref={containerRef}
           className="fixed inset-0 z-[9999] bg-[#0d0d0d] overflow-hidden"
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.8, ease: [0.77, 0, 0.175, 1] }}
+          transition={{ duration: 0 }}
         >
           {/* Stage 2: Projector flicker + dust */}
           <div
@@ -420,6 +616,7 @@ export default function LoadingScreen() {
           >
             <div className="text-center relative">
               <img
+                ref={logoImgRef}
                 src="/images/branding/logo.png"
                 alt="Megarama"
                 className="h-16 md:h-24 w-auto mx-auto"

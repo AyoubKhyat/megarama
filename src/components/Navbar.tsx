@@ -16,11 +16,22 @@ const navLinks = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [logoVisible, setLogoVisible] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setLogoVisible(true);
+      return;
+    }
+    const show = () => setLogoVisible(true);
+    window.addEventListener("logoTransitionComplete", show);
+    return () => window.removeEventListener("logoTransitionComplete", show);
   }, []);
 
   return (
@@ -29,20 +40,25 @@ export default function Navbar() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.8, delay: 2.5, ease: [0.77, 0, 0.175, 1] }}
-        className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-[9990] transition-all duration-500 ${
           scrolled
             ? "bg-black/80 backdrop-blur-xl border-b border-white/5"
             : "bg-transparent"
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <a href="#" className="flex items-center gap-2">
+          <a href="#" className="flex items-center gap-2" data-navbar-logo>
             <Image
               src="/images/branding/logo.png"
               alt="Megarama"
               width={120}
               height={32}
-              style={{ width: "auto", height: "32px" }}
+              style={{
+                width: "auto",
+                height: "32px",
+                opacity: logoVisible ? 1 : 0,
+                transition: "opacity 0.15s ease-out",
+              }}
               priority
             />
           </a>
@@ -91,7 +107,7 @@ export default function Navbar() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 z-[9998] bg-black/95 backdrop-blur-xl flex items-center justify-center md:hidden"
+            className="fixed inset-0 z-[9989] bg-black/95 backdrop-blur-xl flex items-center justify-center md:hidden"
           >
             <div className="flex flex-col items-center gap-8">
               {navLinks.map((link, i) => (
