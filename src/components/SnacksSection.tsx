@@ -164,7 +164,7 @@ export default function SnacksSection() {
           {snacks.map((snack) => (
             <div
               key={snack.name}
-              className="snack-card glass-card p-6 group hover:scale-[1.02] transition-all duration-300"
+              className="snack-card glass-card p-6 group hover:scale-[1.02] transition-all duration-300 hover:border-mega-gold/20"
               style={{ perspective: "1000px" }}
             >
               <div className="flex items-start justify-between mb-4">
@@ -185,7 +185,7 @@ export default function SnacksSection() {
                 <span className="text-xs text-white/30 tracking-wider">
                   {snack.size}
                 </span>
-                <button className="text-xs text-mega-red hover:text-white tracking-wider transition-colors">
+                <button className="text-xs text-mega-red hover:text-white tracking-wider transition-all hover:bg-mega-red/20 px-3 py-1 rounded-full">
                   ADD +
                 </button>
               </div>

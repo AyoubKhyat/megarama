@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, useSpring, useMotionValue, useTransform } from "framer-motion";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -240,10 +241,10 @@ export default function HeroSection() {
           className="absolute top-[15%] left-[8%] w-32 h-48 md:w-44 md:h-64"
         >
           <motion.div
-            className="parallax-poster w-full h-full rounded-lg overflow-hidden shadow-2xl"
+            className="parallax-poster relative w-full h-full rounded-lg overflow-hidden shadow-2xl"
             style={{ x: poster1X, y: poster1Y, rotateY: -15, transformStyle: "preserve-3d" }}
           >
-            <img src="/images/posters/mandalorian.jpg" alt="Movie Poster" className="w-full h-full object-cover" />
+            <Image src="/images/posters/mandalorian.jpg" alt="The Mandalorian & Grogu" fill sizes="(max-width: 768px) 128px, 176px" className="object-cover" />
           </motion.div>
         </div>
 
@@ -252,10 +253,10 @@ export default function HeroSection() {
           className="absolute top-[20%] right-[10%] w-36 h-52 md:w-48 md:h-72"
         >
           <motion.div
-            className="parallax-poster w-full h-full rounded-lg overflow-hidden shadow-2xl"
+            className="parallax-poster relative w-full h-full rounded-lg overflow-hidden shadow-2xl"
             style={{ x: poster2X, y: poster2Y, rotateY: 12, transformStyle: "preserve-3d" }}
           >
-            <img src="/images/posters/toy-story-5.jpg" alt="Movie Poster" className="w-full h-full object-cover" />
+            <Image src="/images/posters/toy-story-5.jpg" alt="Toy Story 5" fill sizes="(max-width: 768px) 144px, 192px" className="object-cover" />
           </motion.div>
         </div>
 
@@ -264,10 +265,10 @@ export default function HeroSection() {
           className="absolute bottom-[20%] left-[15%] w-28 h-40 md:w-40 md:h-56 hidden md:block"
         >
           <motion.div
-            className="parallax-poster w-full h-full rounded-lg overflow-hidden shadow-2xl"
+            className="parallax-poster relative w-full h-full rounded-lg overflow-hidden shadow-2xl"
             style={{ x: poster3X, y: poster3Y, rotateY: -8, transformStyle: "preserve-3d" }}
           >
-            <img src="/images/posters/spiderman.jpg" alt="Movie Poster" className="w-full h-full object-cover" />
+            <Image src="/images/posters/spiderman.jpg" alt="Spider-Man" fill sizes="(max-width: 768px) 0px, 160px" className="object-cover" />
           </motion.div>
         </div>
 
@@ -276,10 +277,10 @@ export default function HeroSection() {
           className="absolute bottom-[25%] right-[12%] w-32 h-44 md:w-36 md:h-52 hidden md:block"
         >
           <motion.div
-            className="parallax-poster w-full h-full rounded-lg overflow-hidden shadow-2xl"
+            className="parallax-poster relative w-full h-full rounded-lg overflow-hidden shadow-2xl"
             style={{ x: poster4X, y: poster4Y, rotateY: 10, transformStyle: "preserve-3d" }}
           >
-            <img src="/images/posters/hero-4.jpg" alt="Movie Poster" className="w-full h-full object-cover" />
+            <Image src="/images/posters/hero-4.jpg" alt="Featured Movie" fill sizes="(max-width: 768px) 0px, 144px" className="object-cover" />
           </motion.div>
         </div>
       </div>

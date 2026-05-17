@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -12,10 +13,12 @@ export default function Footer() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
           >
-            <img
+            <Image
               src="/images/branding/logo.png"
               alt="Megarama"
-              className="h-8 w-auto"
+              width={120}
+              height={32}
+              style={{ width: "auto", height: "32px" }}
             />
             <p className="text-xs text-white/30 mt-2 tracking-wider">
               MARRAKECH • MOROCCO

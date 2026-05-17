@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import { useBooking } from "@/context/BookingContext";
 
 const CinemaHall3D = dynamic(() => import("@/components/CinemaHall3D"), {
@@ -263,10 +264,12 @@ export default function BookingSection() {
                   exit={{ opacity: 0, y: -10, height: 0 }}
                   className="mb-6 p-4 rounded-xl bg-[#e31837]/10 border border-[#e31837]/30 flex items-center gap-4"
                 >
-                  <img
+                  <Image
                     src={selectedMovie.poster}
                     alt={selectedMovie.title}
-                    className="w-12 h-16 rounded-lg object-cover"
+                    width={48}
+                    height={64}
+                    className="rounded-lg object-cover"
                   />
                   <div className="flex-1">
                     <p className="text-sm font-bold text-white">{selectedMovie.title}</p>
@@ -405,6 +408,7 @@ export default function BookingSection() {
                                     key={seatId}
                                     onClick={() => toggleSeat(seatId)}
                                     disabled={isTaken}
+                                    aria-label={`Seat ${seatId}${isTaken ? ", taken" : isSelected ? ", selected" : ""}`}
                                     className={`seat ${
                                       isTaken
                                         ? "seat-taken"
