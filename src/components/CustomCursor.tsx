@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import gsap from "gsap";
+import useReducedPerformance from "@/hooks/useReducedPerformance";
 
 export default function CustomCursor() {
   const outerRef = useRef<HTMLDivElement>(null);
@@ -9,9 +10,15 @@ export default function CustomCursor() {
   const trailRefs = useRef<(HTMLDivElement | null)[]>([]);
   const textRef = useRef<HTMLSpanElement>(null);
   const [isMobile, setIsMobile] = useState(false);
-  const [isHovering, setIsHovering] = useState(false);
+  const isHoveringRef = useRef(false);
   const mousePos = useRef({ x: -100, y: -100 });
   const isVisible = useRef(false);
+  const { isLowEnd } = useReducedPerformance();
+  const trailCount = isLowEnd ? 1 : 4;
+  const trailIndices = useMemo(
+    () => Array.from({ length: trailCount }, (_, i) => i),
+    [trailCount]
+  );
 
   useEffect(() => {
     const checkMobile = () => {
@@ -79,7 +86,7 @@ export default function CustomCursor() {
         target.dataset.cursor;
 
       if (isInteractive) {
-        setIsHovering(true);
+        isHoveringRef.current = true;
         const cursorText =
           target.dataset.cursor ||
           target.closest("[data-cursor]")?.getAttribute("data-cursor") ||
@@ -124,7 +131,7 @@ export default function CustomCursor() {
         target.dataset.cursor;
 
       if (isInteractive) {
-        setIsHovering(false);
+        isHoveringRef.current = false;
         gsap.to(outer, {
           width: 40,
           height: 40,
@@ -163,10 +170,11 @@ export default function CustomCursor() {
       setDotY(dotY - 3);
 
       // Outer ring with lerp
+      const hovering = isHoveringRef.current;
       outerX += (x - outerX) * speed;
       outerY += (y - outerY) * speed;
-      setOuterX(outerX - (isHovering ? 40 : 20));
-      setOuterY(outerY - (isHovering ? 40 : 20));
+      setOuterX(outerX - (hovering ? 40 : 20));
+      setOuterY(outerY - (hovering ? 40 : 20));
 
       // Trail particles
       trails.forEach((_, i) => {
@@ -193,14 +201,14 @@ export default function CustomCursor() {
       document.removeEventListener("mouseover", onMouseOver);
       document.removeEventListener("mouseout", onMouseOut);
     };
-  }, [isMobile, isHovering]);
+  }, [isMobile]);
 
   if (isMobile) return null;
 
   return (
     <>
-      {/* Trailing ghost circles */}
-      {[0, 1, 2, 3].map((i) => (
+      {/* Trailing ghost circles (reduced on low-end devices) */}
+      {trailIndices.map((i) => (
         <div
           key={i}
           ref={(el) => {

@@ -292,7 +292,7 @@ export default function ExperienceSection() {
                   The Experience
                 </span>
               </div>
-              <h2 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
+              <h2 className="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tight mb-6">
                 <motion.span
                   className="block"
                   initial={{ y: 40, opacity: 0 }}

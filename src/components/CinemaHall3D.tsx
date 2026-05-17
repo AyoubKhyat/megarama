@@ -1,9 +1,27 @@
 "use client";
 
-import { useRef, useState, useMemo, useCallback } from "react";
+import { useRef, useState, useMemo, useCallback, Component } from "react";
+import type { ReactNode, ErrorInfo } from "react";
 import { Canvas, useFrame, ThreeEvent } from "@react-three/fiber";
 import { OrbitControls, Float } from "@react-three/drei";
 import * as THREE from "three";
+
+class Canvas3DErrorBoundary extends Component<
+  { children: ReactNode; fallback: ReactNode },
+  { hasError: boolean }
+> {
+  state = { hasError: false };
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  componentDidCatch(error: Error, info: ErrorInfo) {
+    console.error("3D render error:", error, info);
+  }
+  render() {
+    if (this.state.hasError) return this.props.fallback;
+    return this.props.children;
+  }
+}
 
 // ---------------------------------------------------------------------------
 // Types
@@ -392,28 +410,40 @@ export default function CinemaHall3D({
     <div className="relative w-full rounded-2xl border border-white/10 overflow-hidden bg-black">
       {/* 3D Canvas */}
       <div className="w-full h-[500px] md:h-[600px]">
-        <Canvas
-          key={cameraKey}
-          camera={{
-            position: [0, 5, 10],
-            fov: 50,
-            near: 0.1,
-            far: 100,
-          }}
-          shadows
-          gl={{ antialias: true, alpha: false }}
-          onCreated={({ gl }) => {
-            gl.setClearColor("#000000");
-            gl.toneMapping = THREE.ACESFilmicToneMapping;
-            gl.toneMappingExposure = 1.2;
-          }}
+        <Canvas3DErrorBoundary
+          fallback={
+            <div className="w-full h-full flex flex-col items-center justify-center gap-4 bg-black">
+              <svg className="w-12 h-12 text-mega-red/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+              </svg>
+              <p className="text-white/40 text-sm tracking-wider">3D view unavailable</p>
+              <p className="text-white/20 text-xs">Your browser may not support WebGL</p>
+            </div>
+          }
         >
-          <SceneContent
-            selectedSeats={selectedSeats}
-            takenSeats={takenSeats}
-            onSeatToggle={onSeatToggle}
-          />
-        </Canvas>
+          <Canvas
+            key={cameraKey}
+            camera={{
+              position: [0, 5, 10],
+              fov: 50,
+              near: 0.1,
+              far: 100,
+            }}
+            shadows
+            gl={{ antialias: true, alpha: false }}
+            onCreated={({ gl }) => {
+              gl.setClearColor("#000000");
+              gl.toneMapping = THREE.ACESFilmicToneMapping;
+              gl.toneMappingExposure = 1.2;
+            }}
+          >
+            <SceneContent
+              selectedSeats={selectedSeats}
+              takenSeats={takenSeats}
+              onSeatToggle={onSeatToggle}
+            />
+          </Canvas>
+        </Canvas3DErrorBoundary>
       </div>
 
       {/* Reset View Button */}

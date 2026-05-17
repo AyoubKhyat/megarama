@@ -4,6 +4,8 @@ import { useRef, useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import useReducedPerformance from "@/hooks/useReducedPerformance";
+import { useTranslation } from "@/i18n";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -47,6 +49,10 @@ export default function IMAXSection() {
   const clipRef = useRef<SVGCircleElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const statsInView = useInView(statsRef, { once: true, margin: "-100px" });
+  const { isLowEnd, prefersReducedMotion } = useReducedPerformance();
+  const t = useTranslation();
+
+  const particleCount = isLowEnd || prefersReducedMotion ? 15 : 60;
 
   const [particles] = useState(() => {
     // Seeded PRNG to avoid hydration mismatch
@@ -55,6 +61,7 @@ export default function IMAXSection() {
       seed = (seed * 16807) % 2147483647;
       return (seed - 1) / 2147483646;
     };
+    // Generate max count; we slice at render time based on device capability
     return Array.from({ length: 60 }, (_, i) => ({
       id: i,
       left: seededRandom() * 100,
@@ -89,31 +96,33 @@ export default function IMAXSection() {
       }
     );
 
-    // Subtle camera shake on scroll entry
-    gsap.fromTo(
-      section,
-      { x: 0 },
-      {
-        x: 0,
-        scrollTrigger: {
-          trigger: section,
-          start: "top 70%",
-          onEnter: () => {
-            gsap.to(section, {
-              x: "random(-2, 2)",
-              y: "random(-1, 1)",
-              duration: 0.04,
-              repeat: 10,
-              yoyo: true,
-              ease: "none",
-              onComplete: () => {
-                gsap.to(section, { x: 0, y: 0, duration: 0.2 });
-              },
-            });
+    // Subtle camera shake on scroll entry (skip for reduced motion)
+    if (!prefersReducedMotion) {
+      gsap.fromTo(
+        section,
+        { x: 0 },
+        {
+          x: 0,
+          scrollTrigger: {
+            trigger: section,
+            start: "top 70%",
+            onEnter: () => {
+              gsap.to(section, {
+                x: "random(-2, 2)",
+                y: "random(-1, 1)",
+                duration: 0.04,
+                repeat: 10,
+                yoyo: true,
+                ease: "none",
+                onComplete: () => {
+                  gsap.to(section, { x: 0, y: 0, duration: 0.2 });
+                },
+              });
+            },
           },
-        },
-      }
-    );
+        }
+      );
+    }
 
     // Wave/ripple text animation
     const words = text.querySelectorAll(".imax-word");
@@ -176,13 +185,13 @@ export default function IMAXSection() {
     return () => {
       ScrollTrigger.getAll().forEach((t) => t.kill());
     };
-  }, []);
+  }, [prefersReducedMotion]);
 
   const stats = [
-    { value: 12, suffix: "K", label: "Resolution" },
-    { value: 120, suffix: "", label: "FPS" },
-    { value: 40, suffix: "m", label: "Screen" },
-    { value: 360, suffix: "°", label: "Sound" },
+    { value: 12, suffix: "K", label: t.imax.resolution },
+    { value: 120, suffix: "", label: t.imax.fps },
+    { value: 40, suffix: "m", label: t.imax.screen },
+    { value: 360, suffix: "°", label: t.imax.sound },
   ];
 
   return (
@@ -215,9 +224,9 @@ export default function IMAXSection() {
         }}
       />
 
-      {/* Intense particle system - 60 particles */}
+      {/* Intense particle system - dynamically scaled for device capability */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {particles.map((p) => (
+        {particles.slice(0, particleCount).map((p) => (
           <motion.div
             key={p.id}
             className="absolute rounded-full"
@@ -249,24 +258,26 @@ export default function IMAXSection() {
         ))}
       </div>
 
-      {/* Animated light beams */}
-      <div className="absolute inset-0 pointer-events-none">
-        <motion.div
-          className="absolute top-0 left-1/4 w-[2px] h-full bg-gradient-to-b from-mega-red/40 via-mega-red/10 to-transparent"
-          animate={{ opacity: [0, 0.7, 0], x: [-80, 80, -80] }}
-          transition={{ duration: 5, repeat: Infinity }}
-        />
-        <motion.div
-          className="absolute top-0 right-1/3 w-[2px] h-full bg-gradient-to-b from-white/30 via-white/5 to-transparent"
-          animate={{ opacity: [0, 0.5, 0], x: [40, -40, 40] }}
-          transition={{ duration: 7, repeat: Infinity, delay: 1.5 }}
-        />
-        <motion.div
-          className="absolute top-0 left-1/2 w-[1px] h-full bg-gradient-to-b from-mega-red/20 via-transparent to-mega-red/20"
-          animate={{ opacity: [0.2, 0.6, 0.2] }}
-          transition={{ duration: 4, repeat: Infinity, delay: 3 }}
-        />
-      </div>
+      {/* Animated light beams (hidden on low-end devices) */}
+      {!isLowEnd && !prefersReducedMotion && (
+        <div className="absolute inset-0 pointer-events-none">
+          <motion.div
+            className="absolute top-0 left-1/4 w-[2px] h-full bg-gradient-to-b from-mega-red/40 via-mega-red/10 to-transparent"
+            animate={{ opacity: [0, 0.7, 0], x: [-80, 80, -80] }}
+            transition={{ duration: 5, repeat: Infinity }}
+          />
+          <motion.div
+            className="absolute top-0 right-1/3 w-[2px] h-full bg-gradient-to-b from-white/30 via-white/5 to-transparent"
+            animate={{ opacity: [0, 0.5, 0], x: [40, -40, 40] }}
+            transition={{ duration: 7, repeat: Infinity, delay: 1.5 }}
+          />
+          <motion.div
+            className="absolute top-0 left-1/2 w-[1px] h-full bg-gradient-to-b from-mega-red/20 via-transparent to-mega-red/20"
+            animate={{ opacity: [0.2, 0.6, 0.2] }}
+            transition={{ duration: 4, repeat: Infinity, delay: 3 }}
+          />
+        </div>
+      )}
 
       {/* SVG Clip-path reveal */}
       <svg className="absolute inset-0 w-full h-full" style={{ zIndex: 5 }}>
@@ -309,7 +320,7 @@ export default function IMAXSection() {
                 transition={{ duration: 2, repeat: Infinity }}
               />
               <span className="text-xs tracking-[0.4em] text-white/50 uppercase">
-                4DX Experience
+                {t.imax.subtitle}
               </span>
               <motion.div
                 className="w-20 h-[2px] bg-gradient-to-l from-transparent to-mega-red/70"
@@ -323,33 +334,33 @@ export default function IMAXSection() {
           <div ref={textRef} className="mb-16" style={{ perspective: "1000px" }}>
             <h2 className="text-4xl md:text-6xl lg:text-8xl font-bold tracking-tight leading-[1.1]">
               <span className="imax-word inline-block mr-4 origin-bottom">
-                Feel
+                {t.imax.line1}
               </span>
               <span className="imax-word inline-block mr-4 text-mega-red origin-bottom">
-                every
+                {t.imax.line1Accent}
               </span>
               <span className="imax-word inline-block origin-bottom">
-                frame.
+                {t.imax.line1End}
               </span>
               <br />
               <span className="imax-word inline-block mr-4 origin-bottom">
-                Hear
+                {t.imax.line2}
               </span>
               <span className="imax-word inline-block mr-4 text-mega-red origin-bottom">
-                every
+                {t.imax.line2Accent}
               </span>
               <span className="imax-word inline-block origin-bottom">
-                detail.
+                {t.imax.line2End}
               </span>
               <br />
               <span className="imax-word inline-block mr-4 origin-bottom">
-                Live
+                {t.imax.line3}
               </span>
               <span className="imax-word inline-block mr-4 text-mega-red origin-bottom">
-                every
+                {t.imax.line3Accent}
               </span>
               <span className="imax-word inline-block origin-bottom">
-                scene.
+                {t.imax.line3End}
               </span>
             </h2>
           </div>
@@ -430,7 +441,7 @@ export default function IMAXSection() {
                 animate={{ x: ["-100%", "100%"] }}
                 transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
               />
-              <span className="relative">Book IMAX Experience</span>
+              <span className="relative">{t.imax.cta}</span>
             </a>
           </motion.div>
         </div>

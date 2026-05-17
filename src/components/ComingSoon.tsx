@@ -3,30 +3,8 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-
-const upcomingMovies = [
-  {
-    title: "Avatar: Fire & Ash",
-    genre: "Sci-Fi / Adventure",
-    releaseDate: "2026-06-20",
-    poster: "/images/posters/mandalorian.jpg",
-    tagline: "Return to Pandora",
-  },
-  {
-    title: "The Batman II",
-    genre: "Action / Crime",
-    releaseDate: "2026-07-15",
-    poster: "/images/posters/spiderman.jpg",
-    tagline: "Fear is a tool",
-  },
-  {
-    title: "Dune: Part Three",
-    genre: "Sci-Fi / Drama",
-    releaseDate: "2026-08-10",
-    poster: "/images/posters/hero-4.jpg",
-    tagline: "The saga concludes",
-  },
-];
+import { upcomingMovies } from "@/data/coming-soon";
+import { useTranslation } from "@/i18n";
 
 function CountdownTimer({ targetDate }: { targetDate: string }) {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, mins: 0 });
@@ -68,6 +46,7 @@ function CountdownTimer({ targetDate }: { targetDate: string }) {
 }
 
 export default function ComingSoon() {
+  const t = useTranslation();
   const sectionRef = useRef<HTMLElement>(null);
 
   return (
@@ -85,11 +64,11 @@ export default function ComingSoon() {
           <div className="flex items-center gap-4 mb-4">
             <div className="w-12 h-[1px] bg-mega-gold" />
             <span className="text-xs tracking-[0.3em] text-mega-gold uppercase">
-              Upcoming
+              {t.comingSoon.label}
             </span>
           </div>
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
-            COMING <span className="text-mega-gold">SOON</span>
+            {t.comingSoon.title} <span className="text-mega-gold">{t.comingSoon.titleAccent}</span>
           </h2>
         </motion.div>
 
@@ -117,7 +96,7 @@ export default function ComingSoon() {
                 {/* Coming soon badge */}
                 <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-mega-gold/20 border border-mega-gold/40 backdrop-blur-sm">
                   <span className="text-mega-gold text-[10px] font-bold tracking-wider uppercase">
-                    Coming Soon
+                    {t.comingSoon.badge}
                   </span>
                 </div>
 

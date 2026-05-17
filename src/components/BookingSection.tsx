@@ -6,17 +6,23 @@ import gsap from "gsap";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useBooking } from "@/context/BookingContext";
+import { useTranslation } from "@/i18n";
+
+function CinemaHall3DLoading() {
+  const t = useTranslation();
+  return (
+    <div className="w-full h-[500px] md:h-[600px] rounded-2xl border border-white/10 bg-black flex items-center justify-center">
+      <div className="text-white/40 text-sm tracking-wider animate-pulse">{t.booking.loading3D}</div>
+    </div>
+  );
+}
 
 const CinemaHall3D = dynamic(() => import("@/components/CinemaHall3D"), {
   ssr: false,
-  loading: () => (
-    <div className="w-full h-[500px] md:h-[600px] rounded-2xl border border-white/10 bg-black flex items-center justify-center">
-      <div className="text-white/40 text-sm tracking-wider animate-pulse">Loading 3D Scene...</div>
-    </div>
-  ),
+  loading: () => <CinemaHall3DLoading />,
 });
 
-const dates = [
+const baseDates = [
   { day: "Today", date: "16 May" },
   { day: "Sat", date: "17 May" },
   { day: "Sun", date: "18 May" },
@@ -70,6 +76,10 @@ function Barcode() {
 
 export default function BookingSection() {
   const { selectedMovie, clearMovie } = useBooking();
+  const t = useTranslation();
+  const dates = baseDates.map((d) =>
+    d.day === "Today" ? { ...d, day: t.booking.today } : d
+  );
   const [selectedDate, setSelectedDate] = useState(0);
   const [selectedSession, setSelectedSession] = useState<string | null>(null);
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
@@ -238,12 +248,12 @@ export default function BookingSection() {
           <div className="flex items-center justify-center gap-4 mb-4">
             <div className="w-12 h-[1px] bg-mega-red" />
             <span className="text-xs tracking-[0.3em] text-mega-red uppercase">
-              Reserve Your Seat
+              {t.booking.label}
             </span>
             <div className="w-12 h-[1px] bg-mega-red" />
           </div>
-          <h2 className="text-5xl md:text-7xl font-bold tracking-tight">
-            BOOK <span className="text-mega-red">TICKETS</span>
+          <h2 className="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tight">
+            {t.booking.title} <span className="text-mega-red">{t.booking.titleAccent}</span>
           </h2>
         </motion.div>
 
@@ -274,13 +284,13 @@ export default function BookingSection() {
                   <div className="flex-1">
                     <p className="text-sm font-bold text-white">{selectedMovie.title}</p>
                     {selectedMovie.showtime && (
-                      <p className="text-xs text-[#e31837] mt-0.5">Session: {selectedMovie.showtime}</p>
+                      <p className="text-xs text-[#e31837] mt-0.5">{t.booking.session}: {selectedMovie.showtime}</p>
                     )}
                   </div>
                   <button
                     onClick={() => { clearMovie(); setStep(0); setSelectedSession(null); }}
                     className="text-white/40 hover:text-white transition-colors text-lg cursor-pointer"
-                    aria-label="Clear selection"
+                    aria-label={t.booking.clearSelection}
                   >
                     ✕
                   </button>
@@ -370,7 +380,7 @@ export default function BookingSection() {
                           </>
                         )}
                       </svg>
-                      {is3DView ? "Switch to 2D View" : "Switch to 3D View"}
+                      {is3DView ? t.booking.switchTo2D : t.booking.switchTo3D}
                     </button>
                   </div>
 
@@ -387,7 +397,7 @@ export default function BookingSection() {
                       <div className="relative mb-10">
                         <div className="w-3/4 mx-auto h-2 bg-gradient-to-r from-transparent via-mega-red/60 to-transparent rounded-full mb-2" />
                         <p className="text-center text-[10px] text-white/30 tracking-widest uppercase">
-                          Screen
+                          {t.booking.screen}
                         </p>
                       </div>
 
@@ -431,15 +441,15 @@ export default function BookingSection() {
                       <div className="flex items-center justify-center gap-6 mt-6">
                         <div className="flex items-center gap-2">
                           <div className="w-4 h-4 rounded seat-available" />
-                          <span className="text-xs text-white/40">Available</span>
+                          <span className="text-xs text-white/40">{t.booking.available}</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <div className="w-4 h-4 rounded seat-selected" />
-                          <span className="text-xs text-white/40">Selected</span>
+                          <span className="text-xs text-white/40">{t.booking.selected}</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <div className="w-4 h-4 rounded seat-taken" />
-                          <span className="text-xs text-white/40">Taken</span>
+                          <span className="text-xs text-white/40">{t.booking.taken}</span>
                         </div>
                       </div>
                     </>
@@ -457,24 +467,24 @@ export default function BookingSection() {
             className="glass-card p-6 h-fit sticky top-24"
           >
             <h3 className="text-lg font-bold mb-6 tracking-wider">
-              YOUR BOOKING
+              {t.booking.yourBooking}
             </h3>
 
             <div className="space-y-4 mb-6">
               <div className="flex justify-between items-center py-3 border-b border-white/5">
-                <span className="text-xs text-white/40 uppercase tracking-wider">Movie</span>
-                <span className="text-sm">{selectedMovie?.title || "Select a movie"}</span>
+                <span className="text-xs text-white/40 uppercase tracking-wider">{t.booking.movie}</span>
+                <span className="text-sm">{selectedMovie?.title || t.booking.selectMovie}</span>
               </div>
               <div className="flex justify-between items-center py-3 border-b border-white/5">
-                <span className="text-xs text-white/40 uppercase tracking-wider">Date</span>
+                <span className="text-xs text-white/40 uppercase tracking-wider">{t.booking.date}</span>
                 <span className="text-sm">{dates[selectedDate].date}</span>
               </div>
               <div className="flex justify-between items-center py-3 border-b border-white/5">
-                <span className="text-xs text-white/40 uppercase tracking-wider">Session</span>
+                <span className="text-xs text-white/40 uppercase tracking-wider">{t.booking.session}</span>
                 <span className="text-sm">{selectedSession || "—"}</span>
               </div>
               <div className="flex justify-between items-center py-3 border-b border-white/5">
-                <span className="text-xs text-white/40 uppercase tracking-wider">Seats</span>
+                <span className="text-xs text-white/40 uppercase tracking-wider">{t.booking.seats}</span>
                 <span className="text-sm">
                   {selectedSeats.length > 0
                     ? selectedSeats.join(", ")
@@ -485,13 +495,13 @@ export default function BookingSection() {
 
             <div className="p-4 bg-white/5 rounded-xl mb-6">
               <div className="flex justify-between items-center">
-                <span className="text-sm text-white/60">Total</span>
+                <span className="text-sm text-white/60">{t.booking.total}</span>
                 <span className="text-2xl font-bold text-mega-red">
                   {selectedSeats.length * 70} MAD
                 </span>
               </div>
               <p className="text-[10px] text-white/30 mt-1">
-                {selectedSeats.length} × 70 MAD per seat
+                {selectedSeats.length} × 70 MAD {t.booking.perSeat}
               </p>
             </div>
 
@@ -504,7 +514,7 @@ export default function BookingSection() {
                   : "bg-white/5 text-white/30 cursor-not-allowed"
               }`}
             >
-              Confirm Booking
+              {t.booking.confirmBooking}
             </button>
           </motion.div>
         </div>
@@ -574,7 +584,7 @@ export default function BookingSection() {
                     {/* Movie name */}
                     <div className="text-center pb-4 border-b border-dashed border-mega-dark/20">
                       <p className="text-[10px] text-mega-dark/50 uppercase tracking-wider mb-1">
-                        Film
+                        {t.booking.film}
                       </p>
                       <h5 className="text-lg font-bold text-mega-dark tracking-wide">
                         {selectedMovie?.title || "Movie"}
@@ -585,7 +595,7 @@ export default function BookingSection() {
                     <div className="grid grid-cols-2 gap-4 py-2">
                       <div>
                         <p className="text-[9px] text-mega-dark/40 uppercase tracking-wider">
-                          Date
+                          {t.booking.date}
                         </p>
                         <p className="text-sm font-semibold mt-0.5">
                           {dates[selectedDate].date}
@@ -593,7 +603,7 @@ export default function BookingSection() {
                       </div>
                       <div className="text-right">
                         <p className="text-[9px] text-mega-dark/40 uppercase tracking-wider">
-                          Time
+                          {t.booking.time}
                         </p>
                         <p className="text-sm font-semibold mt-0.5">
                           {selectedSession}
@@ -603,7 +613,7 @@ export default function BookingSection() {
 
                     <div className="py-2 border-t border-dashed border-mega-dark/20">
                       <p className="text-[9px] text-mega-dark/40 uppercase tracking-wider">
-                        Seats
+                        {t.booking.seats}
                       </p>
                       <p className="text-sm font-semibold mt-0.5">
                         {selectedSeats.join(", ")}
@@ -623,7 +633,7 @@ export default function BookingSection() {
                     {/* Price */}
                     <div className="flex justify-between items-center">
                       <span className="text-[10px] text-mega-dark/50 uppercase tracking-wider">
-                        Total
+                        {t.booking.total}
                       </span>
                       <span className="text-xl font-bold text-mega-red">
                         {selectedSeats.length * 70} MAD
@@ -678,14 +688,14 @@ export default function BookingSection() {
                     </div>
 
                     <p className="text-white/70 text-sm tracking-wider">
-                      Booking Confirmed!
+                      {t.booking.bookingConfirmed}
                     </p>
 
                     <button
                       onClick={handleClose}
                       className="mt-2 px-8 py-3 bg-mega-red text-white rounded-xl text-sm tracking-widest uppercase font-bold hover:bg-mega-red-dark hover:shadow-[0_0_30px_rgba(227,24,55,0.4)] transition-all duration-300"
                     >
-                      Done
+                      {t.booking.done}
                     </button>
                   </motion.div>
                 )}

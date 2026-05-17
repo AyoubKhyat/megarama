@@ -3,20 +3,23 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-
-const navLinks = [
-  { name: "Now Showing", href: "#now-showing" },
-  { name: "Book Tickets", href: "#booking" },
-  { name: "Experience", href: "#experience" },
-  { name: "IMAX", href: "#imax" },
-  { name: "Snacks", href: "#snacks" },
-  { name: "Contact", href: "#contact" },
-];
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { useTranslation } from "@/i18n";
 
 export default function Navbar() {
+  const t = useTranslation();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [logoVisible, setLogoVisible] = useState(false);
+
+  const navLinks = [
+    { name: t.nav.nowShowing, href: "#now-showing" },
+    { name: t.nav.bookTickets, href: "#booking" },
+    { name: t.nav.experience, href: "#experience" },
+    { name: t.nav.imax, href: "#imax" },
+    { name: t.nav.snacks, href: "#snacks" },
+    { name: t.nav.contact, href: "#contact" },
+  ];
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -76,11 +79,12 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center gap-4">
+            <LanguageSwitcher />
             <a
               href="#booking"
               className="hidden md:block px-5 py-2 bg-mega-red text-white text-xs tracking-widest uppercase rounded-full hover:bg-mega-red-dark transition-all duration-300 hover:shadow-[0_0_20px_rgba(227,24,55,0.4)]"
             >
-              Book Now
+              {t.nav.bookNow}
             </a>
 
             <button

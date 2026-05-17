@@ -152,7 +152,7 @@ export default function LoyaltyCard() {
             </span>
             <div className="w-12 h-[1px] bg-mega-gold" />
           </div>
-          <h2 className="text-5xl md:text-7xl font-bold tracking-tight">
+          <h2 className="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tight">
             MEGARAMA <span className="text-mega-gold">CLUB</span>
           </h2>
           <p className="text-lg text-white/40 mt-4">Your cinema rewards</p>

@@ -5,6 +5,7 @@ import { motion, useSpring, useMotionValue, useTransform } from "framer-motion";
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useTranslation } from "@/i18n";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -59,6 +60,7 @@ function MagneticButton({
 }
 
 export default function HeroSection() {
+  const t = useTranslation();
   const heroRef = useRef<HTMLDivElement>(null);
   const spotlightRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
@@ -66,7 +68,7 @@ export default function HeroSection() {
   const [, setMounted] = useState(false);
 
   const titleLetters = "MEGARAMA".split("");
-  const subtitleWords = ["Experience", "cinema", "like", "never", "before."];
+  const subtitleWords = t.hero.subtitle.split(" ");
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -238,25 +240,25 @@ export default function HeroSection() {
       <div className="absolute inset-0 pointer-events-none perspective-[1000px]">
         <div
           data-hero-poster
-          className="absolute top-[15%] left-[8%] w-32 h-48 md:w-44 md:h-64"
+          className="absolute top-[10%] left-[3%] w-20 h-28 md:w-44 md:h-64 opacity-40 md:opacity-100"
         >
           <motion.div
             className="parallax-poster w-full h-full rounded-lg overflow-hidden shadow-2xl"
             style={{ x: poster1X, y: poster1Y, rotateY: -15, transformStyle: "preserve-3d" }}
           >
-            <img src="/images/posters/mandalorian.jpg" alt="The Mandalorian & Grogu" className="w-full h-full object-cover" />
+            <img src="/images/posters/john-wick.jpg" alt="John Wick: Chapter 4" className="w-full h-full object-cover" />
           </motion.div>
         </div>
 
         <div
           data-hero-poster
-          className="absolute top-[20%] right-[10%] w-36 h-52 md:w-48 md:h-72"
+          className="absolute top-[8%] right-[3%] w-24 h-32 md:w-48 md:h-72 opacity-40 md:opacity-100"
         >
           <motion.div
             className="parallax-poster w-full h-full rounded-lg overflow-hidden shadow-2xl"
             style={{ x: poster2X, y: poster2Y, rotateY: 12, transformStyle: "preserve-3d" }}
           >
-            <img src="/images/posters/toy-story-5.jpg" alt="Toy Story 5" className="w-full h-full object-cover" />
+            <img src="/images/posters/deadpool.jpg" alt="Deadpool & Wolverine" className="w-full h-full object-cover" />
           </motion.div>
         </div>
 
@@ -268,7 +270,7 @@ export default function HeroSection() {
             className="parallax-poster w-full h-full rounded-lg overflow-hidden shadow-2xl"
             style={{ x: poster3X, y: poster3Y, rotateY: -8, transformStyle: "preserve-3d" }}
           >
-            <img src="/images/posters/spiderman.jpg" alt="Spider-Man" className="w-full h-full object-cover" />
+            <img src="/images/posters/nosferatu.jpg" alt="Nosferatu" className="w-full h-full object-cover" />
           </motion.div>
         </div>
 
@@ -280,7 +282,7 @@ export default function HeroSection() {
             className="parallax-poster w-full h-full rounded-lg overflow-hidden shadow-2xl"
             style={{ x: poster4X, y: poster4Y, rotateY: 10, transformStyle: "preserve-3d" }}
           >
-            <img src="/images/posters/hero-4.jpg" alt="Featured Movie" className="w-full h-full object-cover" />
+            <img src="/images/posters/gladiator-2.jpg" alt="Gladiator II" className="w-full h-full object-cover" />
           </motion.div>
         </div>
       </div>
@@ -295,7 +297,7 @@ export default function HeroSection() {
         </div>
 
         {/* Letter-by-letter MEGARAMA title */}
-        <h1 className="text-6xl md:text-[8rem] lg:text-[10rem] font-bold tracking-tighter leading-none mb-6 neon-glow flex items-center justify-center">
+        <h1 className="text-5xl sm:text-6xl md:text-[8rem] lg:text-[10rem] font-bold tracking-tighter leading-none mb-6 neon-glow flex items-center justify-center">
           {titleLetters.map((letter, i) => (
             <span
               key={i}
@@ -330,13 +332,13 @@ export default function HeroSection() {
             href="#now-showing"
             className="px-8 py-4 bg-mega-red text-white text-sm tracking-widest uppercase rounded-full hover:bg-mega-red-dark transition-all duration-300 hover:shadow-[0_0_30px_rgba(227,24,55,0.5)] inline-block"
           >
-            Now Showing
+            {t.nav.nowShowing}
           </MagneticButton>
           <MagneticButton
             href="#booking"
             className="px-8 py-4 border border-white/20 text-white text-sm tracking-widest uppercase rounded-full hover:border-mega-red hover:text-mega-red transition-all duration-300 hover:shadow-[0_0_20px_rgba(227,24,55,0.2)] inline-block"
           >
-            Book Tickets
+            {t.nav.bookTickets}
           </MagneticButton>
         </div>
       </div>
@@ -347,7 +349,7 @@ export default function HeroSection() {
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
         <span className="text-[10px] tracking-[0.3em] text-white/30 uppercase">
-          Scroll
+          {t.hero.scrollDown}
         </span>
         <motion.div
           animate={{ y: [0, 8, 0] }}

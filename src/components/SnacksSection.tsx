@@ -5,54 +5,13 @@ import { motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+import { snacks } from "@/data/snacks";
+import { useTranslation } from "@/i18n";
+
 gsap.registerPlugin(ScrollTrigger);
 
-const snacks = [
-  {
-    name: "Mega Popcorn",
-    description: "Freshly popped, buttery perfection in every bucket.",
-    price: "35 MAD",
-    emoji: "🍿",
-    size: "Large Bucket",
-  },
-  {
-    name: "Cinema Combo",
-    description: "Large popcorn + drink + candy. The ultimate combo.",
-    price: "65 MAD",
-    emoji: "🎬",
-    size: "Full Combo",
-  },
-  {
-    name: "Ice Cold Drinks",
-    description: "Refreshing beverages from classic cola to fresh juice.",
-    price: "25 MAD",
-    emoji: "🥤",
-    size: "500ml",
-  },
-  {
-    name: "Nachos Supreme",
-    description: "Crispy nachos with warm cheese sauce and jalapeños.",
-    price: "40 MAD",
-    emoji: "🧀",
-    size: "Sharing Size",
-  },
-  {
-    name: "Candy Selection",
-    description: "Premium imported chocolates and gummy treats.",
-    price: "20 MAD",
-    emoji: "🍫",
-    size: "Premium Pack",
-  },
-  {
-    name: "Hot Dog Deluxe",
-    description: "All-beef hot dog with your choice of toppings.",
-    price: "45 MAD",
-    emoji: "🌭",
-    size: "King Size",
-  },
-];
-
 export default function SnacksSection() {
+  const t = useTranslation();
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -96,12 +55,12 @@ export default function SnacksSection() {
             <div className="flex items-center gap-4 mb-4">
               <div className="w-12 h-[1px] bg-mega-red" />
               <span className="text-xs tracking-[0.3em] text-mega-red uppercase">
-                Food &amp; Drinks
+                {t.snacks.label}
               </span>
             </div>
-            <h2 className="text-5xl md:text-7xl font-bold tracking-tight">
-              SNACKS &<br />
-              <span className="text-mega-red">TREATS</span>
+            <h2 className="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tight">
+              {t.snacks.title}<br />
+              <span className="text-mega-red">{t.snacks.titleAccent}</span>
             </h2>
           </motion.div>
 
@@ -112,8 +71,7 @@ export default function SnacksSection() {
             className="lg:text-right"
           >
             <p className="text-lg text-white/40 max-w-md lg:ml-auto">
-              Elevate your cinema experience with our premium selection of snacks,
-              crafted to make every movie even better.
+              {t.snacks.description}
             </p>
           </motion.div>
         </div>
@@ -136,16 +94,15 @@ export default function SnacksSection() {
             </motion.div>
             <div className="text-center md:text-left">
               <h3 className="text-3xl md:text-4xl font-bold mb-3">
-                The Mega <span className="text-mega-red">Bucket</span>
+                {t.snacks.megaBucket} <span className="text-mega-red">{t.snacks.megaBucketAccent}</span>
               </h3>
               <p className="text-white/50 mb-4 max-w-md">
-                Our signature oversized popcorn bucket — perfect for sharing
-                (or not). Freshly popped with real butter.
+                {t.snacks.megaBucketDesc}
               </p>
               <div className="flex items-center gap-4 justify-center md:justify-start">
                 <span className="text-2xl font-bold text-mega-gold">55 MAD</span>
                 <button className="px-6 py-2 bg-mega-red text-white text-xs tracking-widest uppercase rounded-full hover:bg-mega-red-dark transition-all">
-                  Add to Order
+                  {t.snacks.addToOrder}
                 </button>
               </div>
             </div>
@@ -186,7 +143,7 @@ export default function SnacksSection() {
                   {snack.size}
                 </span>
                 <button className="text-xs text-mega-red hover:text-white tracking-wider transition-all hover:bg-mega-red/20 px-3 py-1 rounded-full">
-                  ADD +
+                  {t.snacks.add}
                 </button>
               </div>
             </div>

@@ -7,82 +7,22 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import LiveIndicator from "@/components/LiveIndicator";
 import { useBooking } from "@/context/BookingContext";
+import { movies, type Movie } from "@/data/movies";
+import { useTranslation } from "@/i18n";
 
 gsap.registerPlugin(ScrollTrigger);
-
-const movies = [
-  {
-    title: "The Mandalorian & Grogu",
-    genre: "Sci-Fi / Adventure",
-    duration: "2h 05min",
-    language: "EN / AR",
-    rating: "8.2",
-    showtimes: ["14:30", "17:00", "20:30", "23:00"],
-    color: "from-blue-900/40",
-    poster: "/images/posters/mandalorian.jpg",
-  },
-  {
-    title: "Toy Story 5",
-    genre: "Animation / Family",
-    duration: "1h 40min",
-    language: "FR / AR",
-    rating: "8.5",
-    showtimes: ["13:00", "15:30", "18:00"],
-    color: "from-amber-900/40",
-    poster: "/images/posters/toy-story-5.jpg",
-  },
-  {
-    title: "Spider-Man: Brand New Day",
-    genre: "Action / Superhero",
-    duration: "2h 20min",
-    language: "EN / FR",
-    rating: "8.7",
-    showtimes: ["14:00", "17:30", "20:00", "22:30"],
-    color: "from-red-900/40",
-    poster: "/images/posters/spiderman.jpg",
-  },
-  {
-    title: "Scary Movie",
-    genre: "Comedy / Horror",
-    duration: "1h 52min",
-    language: "EN / AR",
-    rating: "7.4",
-    showtimes: ["16:00", "19:00", "22:00"],
-    color: "from-purple-900/40",
-    poster: "/images/posters/scary-movie.jpg",
-  },
-  {
-    title: "Le Virtuose",
-    genre: "Drama / Music",
-    duration: "2h 10min",
-    language: "FR / AR",
-    rating: "8.0",
-    showtimes: ["15:00", "18:30", "21:00"],
-    color: "from-emerald-900/40",
-    poster: "/images/posters/le-virtuose.jpg",
-  },
-  {
-    title: "Evil Dead Burn",
-    genre: "Horror / Thriller",
-    duration: "1h 48min",
-    language: "EN",
-    rating: "7.8",
-    showtimes: ["20:30", "23:00"],
-    color: "from-orange-900/40",
-    poster: "/images/posters/evil-dead.jpg",
-  },
-];
 
 function MovieCard({
   movie,
   index,
 }: {
-  movie: (typeof movies)[0];
+  movie: Movie;
   index: number;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   const { selectMovie } = useBooking();
+  const t = useTranslation();
 
   const handleBookShowtime = (time: string) => {
     selectMovie({ title: movie.title, poster: movie.poster, showtime: time });
@@ -152,7 +92,7 @@ function MovieCard({
               animate={isHovered ? { scale: [0.8, 1] } : { scale: 0.8 }}
               transition={{ duration: 0.3 }}
               className="w-18 h-18 rounded-full bg-[#e31837]/90 flex items-center justify-center backdrop-blur-sm border-2 border-white/20 hover:bg-[#e31837] transition-colors cursor-pointer"
-              aria-label={`Play trailer for ${movie.title}`}
+              aria-label={`${t.nowShowing.playTrailer} ${movie.title}`}
             >
               <svg
                 className="w-7 h-7 text-white ml-1"
@@ -218,6 +158,7 @@ export default function NowShowing() {
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [isDragging, setIsDragging] = useState(false);
   const dragState = useRef({ startX: 0, scrollLeft: 0, isDown: false });
+  const t = useTranslation();
 
   const updateScrollState = useCallback(() => {
     const track = trackRef.current;
@@ -359,7 +300,7 @@ export default function NowShowing() {
         >
           <div className="w-12 h-[1px] bg-mega-red" />
           <span className="text-xs tracking-[0.3em] text-mega-red uppercase">
-            What&apos;s Playing
+            {t.nowShowing.label}
           </span>
         </motion.div>
 
@@ -367,7 +308,7 @@ export default function NowShowing() {
           <div>
             <div ref={titleRef} className="overflow-hidden">
               <h2 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight">
-                {"NOW SHOWING".split("").map((char, i) => (
+                {t.nowShowing.title.split("").map((char, i) => (
                   <span
                     key={i}
                     className="char inline-block"
@@ -387,7 +328,7 @@ export default function NowShowing() {
               onClick={() => scrollBy("left")}
               disabled={!canScrollLeft}
               className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center transition-all duration-300 hover:border-[#e31837]/50 hover:bg-[#e31837]/10 disabled:opacity-30 disabled:hover:border-white/10 disabled:hover:bg-transparent cursor-pointer"
-              aria-label="Scroll left"
+              aria-label={t.nowShowing.scrollLeft}
             >
               <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -397,7 +338,7 @@ export default function NowShowing() {
               onClick={() => scrollBy("right")}
               disabled={!canScrollRight}
               className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center transition-all duration-300 hover:border-[#e31837]/50 hover:bg-[#e31837]/10 disabled:opacity-30 disabled:hover:border-white/10 disabled:hover:bg-transparent cursor-pointer"
-              aria-label="Scroll right"
+              aria-label={t.nowShowing.scrollRight}
             >
               <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -431,7 +372,7 @@ export default function NowShowing() {
           onClick={() => scrollBy("left")}
           disabled={!canScrollLeft}
           className="md:hidden w-10 h-10 rounded-full border border-white/10 flex items-center justify-center transition-all duration-300 disabled:opacity-30 cursor-pointer"
-          aria-label="Scroll left"
+          aria-label={t.nowShowing.scrollLeft}
         >
           <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -451,7 +392,7 @@ export default function NowShowing() {
           onClick={() => scrollBy("right")}
           disabled={!canScrollRight}
           className="md:hidden w-10 h-10 rounded-full border border-white/10 flex items-center justify-center transition-all duration-300 disabled:opacity-30 cursor-pointer"
-          aria-label="Scroll right"
+          aria-label={t.nowShowing.scrollRight}
         >
           <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
