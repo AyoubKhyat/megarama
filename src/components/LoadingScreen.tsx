@@ -22,6 +22,15 @@ export default function LoadingScreen() {
   const logoImgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
+    const fallback = setTimeout(() => {
+      gsap.set(
+        "[data-hero-subtitle],[data-hero-letter],[data-hero-word],[data-hero-cta],[data-hero-poster],[data-hero-scroll]",
+        { opacity: 1, y: 0, rotateX: 0, scale: 1, filter: "blur(0px)" }
+      );
+      window.dispatchEvent(new Event("logoTransitionComplete"));
+      setIsComplete(true);
+    }, 10000);
+
     const ctx = gsap.context(() => {
       const tl = gsap.timeline();
 
@@ -172,6 +181,7 @@ export default function LoadingScreen() {
               { opacity: 1, y: 0, rotateX: 0, scale: 1, filter: "blur(0px)" }
             );
             window.dispatchEvent(new Event("logoTransitionComplete"));
+            clearTimeout(fallback);
             setIsComplete(true);
             return;
           }
@@ -184,6 +194,7 @@ export default function LoadingScreen() {
               { opacity: 1, y: 0, rotateX: 0, scale: 1, filter: "blur(0px)" }
             );
             window.dispatchEvent(new Event("logoTransitionComplete"));
+            clearTimeout(fallback);
             setIsComplete(true);
             return;
           }
@@ -208,7 +219,7 @@ export default function LoadingScreen() {
           gsap.set(logoImg, { filter: "blur(0px) brightness(1)" });
 
           const trans = gsap.timeline({
-            onComplete: () => setIsComplete(true),
+            onComplete: () => { clearTimeout(fallback); setIsComplete(true); },
           });
 
           // Logo flight (1.3s, power4.inOut)
@@ -349,7 +360,7 @@ export default function LoadingScreen() {
 
     }, containerRef);
 
-    return () => {};
+    return () => { clearTimeout(fallback); };
   }, []);
 
   return (
