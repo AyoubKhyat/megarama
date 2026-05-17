@@ -236,11 +236,11 @@ export default function HeroSection() {
         />
       </div>
 
-      {/* Floating 3D movie posters with parallax */}
-      <div className="absolute inset-0 pointer-events-none perspective-[1000px]">
+      {/* Floating 3D movie posters with parallax — hidden on mobile */}
+      <div className="absolute inset-0 pointer-events-none perspective-[1000px] hidden md:block">
         <div
           data-hero-poster
-          className="absolute top-[10%] left-[3%] w-20 h-28 md:w-44 md:h-64 opacity-40 md:opacity-100"
+          className="absolute top-[15%] left-[8%] w-44 h-64"
         >
           <motion.div
             className="parallax-poster w-full h-full rounded-lg overflow-hidden shadow-2xl"
@@ -252,7 +252,7 @@ export default function HeroSection() {
 
         <div
           data-hero-poster
-          className="absolute top-[8%] right-[3%] w-24 h-32 md:w-48 md:h-72 opacity-40 md:opacity-100"
+          className="absolute top-[20%] right-[10%] w-48 h-72"
         >
           <motion.div
             className="parallax-poster w-full h-full rounded-lg overflow-hidden shadow-2xl"
@@ -264,7 +264,7 @@ export default function HeroSection() {
 
         <div
           data-hero-poster
-          className="absolute bottom-[20%] left-[15%] w-28 h-40 md:w-40 md:h-56 hidden md:block"
+          className="absolute bottom-[20%] left-[15%] w-40 h-56"
         >
           <motion.div
             className="parallax-poster w-full h-full rounded-lg overflow-hidden shadow-2xl"
@@ -276,7 +276,7 @@ export default function HeroSection() {
 
         <div
           data-hero-poster
-          className="absolute bottom-[25%] right-[12%] w-32 h-44 md:w-36 md:h-52 hidden md:block"
+          className="absolute bottom-[25%] right-[12%] w-36 h-52"
         >
           <motion.div
             className="parallax-poster w-full h-full rounded-lg overflow-hidden shadow-2xl"

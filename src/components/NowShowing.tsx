@@ -285,7 +285,7 @@ export default function NowShowing() {
   }, []);
 
   return (
-    <section id="now-showing" ref={sectionRef} className="relative py-20 md:py-32">
+    <section id="now-showing" ref={sectionRef} className="relative py-20 md:py-32 overflow-x-clip">
       {/* Section background glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#e31837]/5 rounded-full blur-[120px] pointer-events-none" />
 

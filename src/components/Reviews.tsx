@@ -45,7 +45,7 @@ export default function Reviews() {
   const review = reviews[current];
 
   return (
-    <section className="relative py-20 md:py-28">
+    <section className="relative py-20 md:py-28 overflow-hidden">
       <div className="relative z-10 max-w-4xl mx-auto px-6">
         {/* Header */}
         <motion.div
