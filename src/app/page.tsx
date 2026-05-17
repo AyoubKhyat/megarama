@@ -13,11 +13,14 @@ import SocialProof from "@/components/SocialProof";
 import SectionDots from "@/components/SectionDots";
 import LazySection from "@/components/LazySection";
 import MobileBottomNav from "@/components/MobileBottomNav";
+import LiveStats from "@/components/LiveStats";
 import useIsDesktop from "@/hooks/useIsDesktop";
 import { BookingProvider } from "@/context/BookingContext";
 
 const Scene3D = dynamic(() => import("@/components/Scene3D"), { ssr: false });
 const BookingSection = dynamic(() => import("@/components/BookingSection"));
+const ComingSoon = dynamic(() => import("@/components/ComingSoon"));
+const Reviews = dynamic(() => import("@/components/Reviews"));
 const ExperienceSection = dynamic(() => import("@/components/ExperienceSection"));
 const StorytellingSection = dynamic(() => import("@/components/StorytellingSection"));
 const IMAXSection = dynamic(() => import("@/components/IMAXSection"));
@@ -46,9 +49,13 @@ export default function Home() {
           <HeroSection />
           <FilmReelTransition position="bottom" />
           <NowShowing />
+          <LiveStats />
           <FilmReelTransition position="top" />
           <BookingSection />
           <FilmReelTransition position="bottom" />
+          <LazySection rootMargin="300px">
+            <ComingSoon />
+          </LazySection>
           <LazySection rootMargin="300px">
             <ExperienceSection />
           </LazySection>
@@ -64,6 +71,9 @@ export default function Home() {
           </LazySection>
           <LazySection rootMargin="200px">
             <MovieQuotes />
+          </LazySection>
+          <LazySection rootMargin="200px">
+            <Reviews />
           </LazySection>
           <LazySection rootMargin="200px">
             <LoyaltyCard />
