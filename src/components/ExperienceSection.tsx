@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -338,10 +339,12 @@ export default function ExperienceSection() {
               <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10 neon-glow-box">
                 <div className="absolute inset-0">
                   {/* Cinema venue background image */}
-                  <img
-                    src="https://marrakech.megarama.ma/cine-themes/megarama/269/img/cinema-megarama.jpg?=20251221"
+                  <Image
+                    src="/images/branding/cinema-hall.jpg"
                     alt="Megarama Marrakech Cinema"
-                    className="absolute inset-0 w-full h-full object-cover"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 60vw"
+                    className="object-cover"
                   />
                   <div className="absolute inset-0 bg-black/40" />
                 </div>

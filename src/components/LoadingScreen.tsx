@@ -420,7 +420,7 @@ export default function LoadingScreen() {
           >
             <div className="text-center relative">
               <img
-                src="https://marrakech.megarama.ma/public/fichiers/logo-site/cinemas-megarama.png"
+                src="/images/branding/logo.png"
                 alt="Megarama"
                 className="h-16 md:h-24 w-auto mx-auto"
                 style={{

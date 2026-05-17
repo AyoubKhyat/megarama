@@ -8,49 +8,74 @@ import LoadingScreen from "@/components/LoadingScreen";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import NowShowing from "@/components/NowShowing";
-import BookingSection from "@/components/BookingSection";
-import ExperienceSection from "@/components/ExperienceSection";
-import StorytellingSection from "@/components/StorytellingSection";
-import IMAXSection from "@/components/IMAXSection";
-import SnacksSection from "@/components/SnacksSection";
-import MovieQuotes from "@/components/MovieQuotes";
-import LoyaltyCard from "@/components/LoyaltyCard";
-import ContactSection from "@/components/ContactSection";
-import Footer from "@/components/Footer";
 import FilmReelTransition from "@/components/FilmReelTransition";
 import SocialProof from "@/components/SocialProof";
 import SectionDots from "@/components/SectionDots";
+import LazySection from "@/components/LazySection";
+import MobileBottomNav from "@/components/MobileBottomNav";
+import useIsDesktop from "@/hooks/useIsDesktop";
+import { BookingProvider } from "@/context/BookingContext";
 
 const Scene3D = dynamic(() => import("@/components/Scene3D"), { ssr: false });
+const BookingSection = dynamic(() => import("@/components/BookingSection"));
+const ExperienceSection = dynamic(() => import("@/components/ExperienceSection"));
+const StorytellingSection = dynamic(() => import("@/components/StorytellingSection"));
+const IMAXSection = dynamic(() => import("@/components/IMAXSection"));
+const SnacksSection = dynamic(() => import("@/components/SnacksSection"));
+const MovieQuotes = dynamic(() => import("@/components/MovieQuotes"));
+const LoyaltyCard = dynamic(() => import("@/components/LoyaltyCard"));
+const ContactSection = dynamic(() => import("@/components/ContactSection"));
+const Footer = dynamic(() => import("@/components/Footer"));
 
 export default function Home() {
+  const isDesktop = useIsDesktop();
+
   return (
-    <SmoothScroll>
-      <LoadingScreen />
-      <CustomCursor />
-      <SocialProof />
-      <AmbientAudio />
-      <div className="film-grain" />
-      <Navbar />
-      <SectionDots />
-      <Scene3D />
-      <main>
-        <HeroSection />
-        <FilmReelTransition position="bottom" />
-        <NowShowing />
-        <FilmReelTransition position="top" />
-        <BookingSection />
-        <FilmReelTransition position="bottom" />
-        <ExperienceSection />
-        <StorytellingSection />
-        <FilmReelTransition position="top" />
-        <IMAXSection />
-        <SnacksSection />
-        <MovieQuotes />
-        <LoyaltyCard />
-        <ContactSection />
-      </main>
-      <Footer />
-    </SmoothScroll>
+    <BookingProvider>
+      <SmoothScroll>
+        <LoadingScreen />
+        <CustomCursor />
+        <SocialProof />
+        <AmbientAudio />
+        <div className="film-grain" />
+        <Navbar />
+        <MobileBottomNav />
+        <SectionDots />
+        {isDesktop && <Scene3D />}
+        <main>
+          <HeroSection />
+          <FilmReelTransition position="bottom" />
+          <NowShowing />
+          <FilmReelTransition position="top" />
+          <BookingSection />
+          <FilmReelTransition position="bottom" />
+          <LazySection rootMargin="300px">
+            <ExperienceSection />
+          </LazySection>
+          <LazySection rootMargin="300px">
+            <StorytellingSection />
+          </LazySection>
+          <FilmReelTransition position="top" />
+          <LazySection rootMargin="300px">
+            <IMAXSection />
+          </LazySection>
+          <LazySection rootMargin="200px">
+            <SnacksSection />
+          </LazySection>
+          <LazySection rootMargin="200px">
+            <MovieQuotes />
+          </LazySection>
+          <LazySection rootMargin="200px">
+            <LoyaltyCard />
+          </LazySection>
+          <LazySection rootMargin="200px">
+            <ContactSection />
+          </LazySection>
+        </main>
+        <LazySection rootMargin="100px">
+          <Footer />
+        </LazySection>
+      </SmoothScroll>
+    </BookingProvider>
   );
 }

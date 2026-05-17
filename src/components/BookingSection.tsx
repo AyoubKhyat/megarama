@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
 import dynamic from "next/dynamic";
+import { useBooking } from "@/context/BookingContext";
 
 const CinemaHall3D = dynamic(() => import("@/components/CinemaHall3D"), {
   ssr: false,
@@ -67,6 +68,7 @@ function Barcode() {
 }
 
 export default function BookingSection() {
+  const { selectedMovie, clearMovie } = useBooking();
   const [selectedDate, setSelectedDate] = useState(0);
   const [selectedSession, setSelectedSession] = useState<string | null>(null);
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
@@ -80,6 +82,16 @@ export default function BookingSection() {
   const checkRef = useRef<HTMLDivElement>(null);
   const shadowRef = useRef<HTMLDivElement>(null);
   const tlRef = useRef<gsap.core.Timeline | null>(null);
+
+  useEffect(() => {
+    if (selectedMovie) {
+      setStep(1);
+      if (selectedMovie.showtime) {
+        setSelectedSession(selectedMovie.showtime);
+        setStep(2);
+      }
+    }
+  }, [selectedMovie]);
 
   const toggleSeat = (seatId: string) => {
     if (takenSeats.includes(seatId)) return;
@@ -99,10 +111,10 @@ export default function BookingSection() {
   const handleClose = () => {
     setShowTicket(false);
     setTearComplete(false);
-    // Reset booking state
     setSelectedSeats([]);
     setSelectedSession(null);
     setStep(0);
+    clearMovie();
   };
 
   const runTearAnimation = useCallback(() => {
@@ -242,6 +254,37 @@ export default function BookingSection() {
             viewport={{ once: true }}
             className="glass-card p-8"
           >
+            {/* Selected movie banner */}
+            <AnimatePresence>
+              {selectedMovie && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10, height: 0 }}
+                  animate={{ opacity: 1, y: 0, height: "auto" }}
+                  exit={{ opacity: 0, y: -10, height: 0 }}
+                  className="mb-6 p-4 rounded-xl bg-[#e31837]/10 border border-[#e31837]/30 flex items-center gap-4"
+                >
+                  <img
+                    src={selectedMovie.poster}
+                    alt={selectedMovie.title}
+                    className="w-12 h-16 rounded-lg object-cover"
+                  />
+                  <div className="flex-1">
+                    <p className="text-sm font-bold text-white">{selectedMovie.title}</p>
+                    {selectedMovie.showtime && (
+                      <p className="text-xs text-[#e31837] mt-0.5">Session: {selectedMovie.showtime}</p>
+                    )}
+                  </div>
+                  <button
+                    onClick={() => { clearMovie(); setStep(0); setSelectedSession(null); }}
+                    className="text-white/40 hover:text-white transition-colors text-lg cursor-pointer"
+                    aria-label="Clear selection"
+                  >
+                    ✕
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             {/* Date selector */}
             <div className="flex gap-3 mb-6 overflow-x-auto pb-2">
               {dates.map((d, i) => (
@@ -268,7 +311,7 @@ export default function BookingSection() {
                   animate={{ opacity: 1, height: "auto" }}
                   className="flex gap-2 mb-8 flex-wrap"
                 >
-                  {sessions.map((s) => (
+                  {[...new Set([...sessions, ...(selectedMovie?.showtime ? [selectedMovie.showtime] : [])])].sort().map((s) => (
                     <button
                       key={s}
                       onClick={() => { setSelectedSession(s); setStep(2); }}
@@ -416,7 +459,7 @@ export default function BookingSection() {
             <div className="space-y-4 mb-6">
               <div className="flex justify-between items-center py-3 border-b border-white/5">
                 <span className="text-xs text-white/40 uppercase tracking-wider">Movie</span>
-                <span className="text-sm">The Dark Horizon</span>
+                <span className="text-sm">{selectedMovie?.title || "Select a movie"}</span>
               </div>
               <div className="flex justify-between items-center py-3 border-b border-white/5">
                 <span className="text-xs text-white/40 uppercase tracking-wider">Date</span>
@@ -530,7 +573,7 @@ export default function BookingSection() {
                         Film
                       </p>
                       <h5 className="text-lg font-bold text-mega-dark tracking-wide">
-                        The Dark Horizon
+                        {selectedMovie?.title || "Movie"}
                       </h5>
                     </div>
 

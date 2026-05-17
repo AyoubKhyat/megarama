@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 const navLinks = [
   { name: "Now Showing", href: "#now-showing" },
@@ -36,10 +37,13 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <a href="#" className="flex items-center gap-2">
-            <img
-              src="https://marrakech.megarama.ma/public/fichiers/logo-site/cinemas-megarama.png"
+            <Image
+              src="/images/branding/logo.png"
               alt="Megarama"
-              className="h-8 w-auto"
+              width={120}
+              height={32}
+              style={{ width: "auto", height: "32px" }}
+              priority
             />
           </a>
 

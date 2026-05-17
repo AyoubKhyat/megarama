@@ -286,7 +286,7 @@ export default function HeroSection() {
           transition={{ duration: 1.5, delay: 3 }}
           style={{ x: poster1X, y: poster1Y, transformStyle: "preserve-3d" }}
         >
-          <img src="https://marrakech.megarama.ma/public/films/affiches/342_456/0757p10250016523bb35.jpg" alt="Movie Poster" className="w-full h-full object-cover" />
+          <img src="/images/posters/mandalorian.jpg" alt="Movie Poster" className="w-full h-full object-cover" />
         </motion.div>
 
         <motion.div
@@ -296,7 +296,7 @@ export default function HeroSection() {
           transition={{ duration: 1.5, delay: 3.3 }}
           style={{ x: poster2X, y: poster2Y, transformStyle: "preserve-3d" }}
         >
-          <img src="https://marrakech.megarama.ma/public/films/affiches/342_456/0757p1025001607c278e.jpg" alt="Movie Poster" className="w-full h-full object-cover" />
+          <img src="/images/posters/toy-story-5.jpg" alt="Movie Poster" className="w-full h-full object-cover" />
         </motion.div>
 
         <motion.div
@@ -306,7 +306,7 @@ export default function HeroSection() {
           transition={{ duration: 1.5, delay: 3.6 }}
           style={{ x: poster3X, y: poster3Y, transformStyle: "preserve-3d" }}
         >
-          <img src="https://marrakech.megarama.ma/public/films/affiches/342_456/0757p102500161368854.jpg" alt="Movie Poster" className="w-full h-full object-cover" />
+          <img src="/images/posters/spiderman.jpg" alt="Movie Poster" className="w-full h-full object-cover" />
         </motion.div>
 
         <motion.div
@@ -316,7 +316,7 @@ export default function HeroSection() {
           transition={{ duration: 1.5, delay: 3.9 }}
           style={{ x: poster4X, y: poster4Y, transformStyle: "preserve-3d" }}
         >
-          <img src="https://marrakech.megarama.ma/public/films/affiches/342_456/0757p10260017158c056.jpg" alt="Movie Poster" className="w-full h-full object-cover" />
+          <img src="/images/posters/hero-4.jpg" alt="Movie Poster" className="w-full h-full object-cover" />
         </motion.div>
       </div>
 

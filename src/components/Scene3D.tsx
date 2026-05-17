@@ -8,7 +8,6 @@ import {
   Bloom,
   ChromaticAberration,
   Vignette,
-  DepthOfField,
 } from "@react-three/postprocessing";
 import { BlendFunction } from "postprocessing";
 import * as THREE from "three";
@@ -478,11 +477,6 @@ function LightOrbs() {
 function Effects() {
   return (
     <EffectComposer>
-      <DepthOfField
-        focusDistance={0.02}
-        focalLength={0.05}
-        bokehScale={3}
-      />
       <Bloom
         intensity={1.2}
         luminanceThreshold={0.2}

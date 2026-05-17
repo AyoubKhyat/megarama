@@ -13,7 +13,7 @@ export default function Footer() {
             viewport={{ once: true }}
           >
             <img
-              src="https://marrakech.megarama.ma/public/fichiers/logo-site/cinemas-megarama.png"
+              src="/images/branding/logo.png"
               alt="Megarama"
               className="h-8 w-auto"
             />

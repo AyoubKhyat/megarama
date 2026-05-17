@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -124,10 +125,12 @@ export default function LoyaltyCard() {
     <section id="loyalty" ref={sectionRef} className="relative py-32 overflow-hidden">
       {/* Megacarte promotional background */}
       <div className="absolute inset-0">
-        <img
-          src="https://marrakech.megarama.ma/public/contenus/195f3eedbbe9b8da01ecf6c87e046b10/images/megacarte-web240f4--w1265-h650-rcrop.jpg"
+        <Image
+          src="/images/branding/megacarte.jpg"
           alt="Megacarte Loyalty Program"
-          className="absolute inset-0 w-full h-full object-cover opacity-10"
+          fill
+          sizes="100vw"
+          className="object-cover opacity-10"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-mega-dark via-black/90 to-mega-dark" />
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function ContactSection() {
   return (
@@ -37,10 +38,12 @@ export default function ContactSection() {
             className="relative aspect-square lg:aspect-auto lg:h-full min-h-[400px] rounded-2xl overflow-hidden border border-white/10"
           >
             <div className="absolute inset-0">
-              <img
-                src="https://marrakech.megarama.ma/cine-themes/megarama/269/img/cinema-megarama.jpg?=20251221"
+              <Image
+                src="/images/branding/cinema-hall.jpg"
                 alt="Megarama Marrakech Cinema"
-                className="absolute inset-0 w-full h-full object-cover"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/30" />
               <div className="relative h-full flex items-center justify-center">
