@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useTranslation } from "@/i18n";
@@ -14,6 +14,13 @@ export default function ContactSection() {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [submitState, setSubmitState] = useState<"idle" | "loading" | "success">("idle");
+  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  useEffect(() => {
+    return () => {
+      timersRef.current.forEach(clearTimeout);
+    };
+  }, []);
 
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,11 +32,13 @@ export default function ContactSection() {
     }
 
     setSubmitState("loading");
-    setTimeout(() => {
+    const loadingTimer = setTimeout(() => {
       setSubmitState("success");
       setEmail("");
-      setTimeout(() => setSubmitState("idle"), 3000);
+      const resetTimer = setTimeout(() => setSubmitState("idle"), 3000);
+      timersRef.current.push(resetTimer);
     }, 1000);
+    timersRef.current.push(loadingTimer);
   };
 
   return (
@@ -188,7 +197,7 @@ export default function ContactSection() {
                         ? "border-red-500/70 focus:border-red-500"
                         : "border-white/10 focus:border-mega-red/50"
                     }`}
-                    disabled={submitState === "loading" || submitState === "success"}
+                    disabled={submitState === "loading"}
                   />
                   {emailError && (
                     <p className="text-red-400 text-xs mt-1.5">{emailError}</p>
@@ -196,7 +205,7 @@ export default function ContactSection() {
                 </div>
                 <button
                   type="submit"
-                  disabled={submitState === "loading" || submitState === "success"}
+                  disabled={submitState === "loading"}
                   className={`px-6 py-3 text-white text-xs tracking-widest uppercase rounded-lg transition-all duration-300 h-fit ${
                     submitState === "success"
                       ? "bg-emerald-600 hover:bg-emerald-700"

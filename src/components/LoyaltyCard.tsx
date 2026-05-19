@@ -108,6 +108,7 @@ export default function LoyaltyCard() {
     }
 
     return () => {
+      if (cardRef.current) gsap.killTweensOf(cardRef.current);
       ScrollTrigger.getAll().forEach((t) => {
         if (t.trigger === section || t.trigger === cardRef.current) t.kill();
       });

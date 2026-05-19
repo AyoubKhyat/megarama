@@ -153,6 +153,7 @@ export default function IMAXSection() {
 
     // Pulsing energy lines between stats
     const lines = section.querySelectorAll(".energy-line");
+    const lineTweens: gsap.core.Tween[] = [];
     lines.forEach((line) => {
       gsap.to(line, {
         scaleX: 1,
@@ -164,18 +165,20 @@ export default function IMAXSection() {
           start: "top 80%",
         },
       });
-      gsap.to(line, {
-        opacity: 0.3,
-        duration: 1.2,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-        delay: 1,
-      });
+      lineTweens.push(
+        gsap.to(line, {
+          opacity: 0.3,
+          duration: 1.2,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+          delay: 1,
+        })
+      );
     });
 
     // Animated gradient band pulse
-    gsap.to(".gradient-band", {
+    const gradientTween = gsap.to(".gradient-band", {
       backgroundPosition: "200% center",
       duration: 3,
       repeat: -1,
@@ -183,6 +186,8 @@ export default function IMAXSection() {
     });
 
     return () => {
+      lineTweens.forEach((tw) => tw.kill());
+      gradientTween.kill();
       ScrollTrigger.getAll().forEach((t) => t.kill());
     };
   }, [prefersReducedMotion]);

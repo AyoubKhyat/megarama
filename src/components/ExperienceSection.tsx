@@ -225,7 +225,7 @@ export default function ExperienceSection() {
     });
 
     // Scanline animation
-    gsap.to(".scanline", {
+    const scanlineTween = gsap.to(".scanline", {
       y: "100%",
       duration: 3,
       repeat: -1,
@@ -233,6 +233,7 @@ export default function ExperienceSection() {
     });
 
     return () => {
+      scanlineTween.kill();
       ScrollTrigger.getAll().forEach((t) => t.kill());
     };
   }, []);
