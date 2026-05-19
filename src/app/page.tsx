@@ -48,7 +48,7 @@ export default function Home() {
         <MobileBottomNav />
         <SectionDots />
         {isDesktop && <Scene3D />}
-        <main>
+        <main id="main-content">
           <HeroSection />
           <FilmReelTransition position="bottom" />
           <NowShowing />

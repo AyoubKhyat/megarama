@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useMemo, useEffect, useState } from "react";
+import useReducedPerformance from "@/hooks/useReducedPerformance";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Float } from "@react-three/drei";
 import {
@@ -513,6 +514,7 @@ function Effects() {
 
 export default function Scene3D() {
   const [mounted, setMounted] = useState(false);
+  const { isLowEnd } = useReducedPerformance();
 
   useEffect(() => {
     setMounted(true);
@@ -531,7 +533,7 @@ export default function Scene3D() {
           toneMapping: ACESFilmicToneMapping,
           toneMappingExposure: 1.2,
         }}
-        dpr={[1, 1.5]}
+        dpr={isLowEnd ? [1, 1] : [1, 1.5]}
       >
         {/* Camera controller */}
         <ScrollCamera />
@@ -609,7 +611,7 @@ export default function Scene3D() {
         <FilmReelRing position={[0, -3, -6]} size={0.8} speed={0.25} />
 
         {/* Particles */}
-        <CinemaParticles count={800} />
+        <CinemaParticles count={isLowEnd ? 200 : 800} />
 
         {/* Ambient light orbs */}
         <LightOrbs />

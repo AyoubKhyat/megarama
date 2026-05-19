@@ -22,13 +22,20 @@ const CinemaHall3D = dynamic(() => import("@/components/CinemaHall3D"), {
   loading: () => <CinemaHall3DLoading />,
 });
 
-const baseDates = [
-  { day: "Today", date: "16 May" },
-  { day: "Sat", date: "17 May" },
-  { day: "Sun", date: "18 May" },
-  { day: "Mon", date: "19 May" },
-  { day: "Tue", date: "20 May" },
-];
+function generateDates(): { day: string; date: string }[] {
+  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  return Array.from({ length: 5 }, (_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() + i);
+    return {
+      day: i === 0 ? "Today" : days[d.getDay()],
+      date: `${d.getDate()} ${months[d.getMonth()]}`,
+    };
+  });
+}
+
+const baseDates = generateDates();
 
 const sessions = ["14:30", "17:00", "19:30", "21:00", "23:30"];
 
@@ -503,6 +510,12 @@ export default function BookingSection() {
               <p className="text-[10px] text-white/30 mt-1">
                 {selectedSeats.length} × 70 MAD {t.booking.perSeat}
               </p>
+            </div>
+
+            <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+              {selectedSeats.length > 0
+                ? `${selectedSeats.length} seat${selectedSeats.length > 1 ? "s" : ""} selected: ${selectedSeats.join(", ")}`
+                : "No seats selected"}
             </div>
 
             <button

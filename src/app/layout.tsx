@@ -44,6 +44,9 @@ export const metadata: Metadata = {
       "The ultimate cinematic experience. IMAX, 4DX, premium comfort in Marrakech.",
     images: ["/images/branding/cinema-hall.jpg"],
   },
+  alternates: {
+    canonical: "https://marrakech.megarama.ma",
+  },
   robots: {
     index: true,
     follow: true,
@@ -58,6 +61,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}
     >
       <head>
@@ -113,6 +117,12 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-mega-dark text-foreground overflow-x-hidden">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[99999] focus:px-4 focus:py-2 focus:bg-mega-red focus:text-white focus:rounded-lg focus:text-sm focus:tracking-wider"
+        >
+          Skip to main content
+        </a>
         <Providers>{children}</Providers>
       </body>
     </html>
