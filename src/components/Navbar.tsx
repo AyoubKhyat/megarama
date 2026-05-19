@@ -50,7 +50,7 @@ export default function Navbar() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <a href="#" className="flex items-center gap-2" data-navbar-logo>
+          <a href="/" className="flex items-center gap-2" data-navbar-logo>
             <Image
               src="/images/branding/logo.png"
               alt="Megarama"

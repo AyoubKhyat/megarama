@@ -306,11 +306,12 @@ export default function BookingSection() {
             </AnimatePresence>
 
             {/* Date selector */}
-            <div className="flex gap-3 mb-6 overflow-x-auto pb-2">
+            <div className="flex gap-3 mb-6 overflow-x-auto pb-2" role="group" aria-label={t.booking.date}>
               {dates.map((d, i) => (
                 <button
                   key={i}
                   onClick={() => { setSelectedDate(i); setStep(1); }}
+                  aria-pressed={selectedDate === i}
                   className={`flex-shrink-0 px-4 py-3 rounded-xl text-center transition-all duration-300 ${
                     selectedDate === i
                       ? "bg-mega-red text-white shadow-[0_0_20px_rgba(227,24,55,0.3)]"
@@ -330,11 +331,14 @@ export default function BookingSection() {
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: "auto" }}
                   className="flex gap-2 mb-8 flex-wrap"
+                  role="group"
+                  aria-label={t.booking.session}
                 >
                   {[...new Set([...sessions, ...(selectedMovie?.showtime ? [selectedMovie.showtime] : [])])].sort().map((s) => (
                     <button
                       key={s}
                       onClick={() => { setSelectedSession(s); setStep(2); }}
+                      aria-pressed={selectedSession === s}
                       className={`px-4 py-2 rounded-lg text-sm transition-all duration-300 ${
                         selectedSession === s
                           ? "bg-mega-red text-white neon-glow-box"

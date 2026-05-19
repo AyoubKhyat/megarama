@@ -58,13 +58,13 @@ export default function Footer() {
           </motion.div>
 
           <div className="flex items-center gap-8">
-            <a href="#" className="text-xs text-white/40 hover:text-mega-red transition-colors tracking-wider">
+            <a href="/privacy" className="text-xs text-white/40 hover:text-mega-red transition-colors tracking-wider">
               {t.footer.privacy}
             </a>
-            <a href="#" className="text-xs text-white/40 hover:text-mega-red transition-colors tracking-wider">
+            <a href="/terms" className="text-xs text-white/40 hover:text-mega-red transition-colors tracking-wider">
               {t.footer.terms}
             </a>
-            <a href="#" className="text-xs text-white/40 hover:text-mega-red transition-colors tracking-wider">
+            <a href="/careers" className="text-xs text-white/40 hover:text-mega-red transition-colors tracking-wider">
               {t.footer.careers}
             </a>
           </div>

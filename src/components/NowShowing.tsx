@@ -364,7 +364,14 @@ export default function NowShowing() {
       {/* Carousel track */}
       <div
         ref={trackRef}
-        className={`carousel-track flex gap-6 md:gap-8 px-6 md:px-12 pb-8 overflow-x-auto scroll-smooth ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
+        role="region"
+        aria-label={t.nowShowing.title}
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "ArrowLeft") { e.preventDefault(); scrollBy("left"); }
+          if (e.key === "ArrowRight") { e.preventDefault(); scrollBy("right"); }
+        }}
+        className={`carousel-track flex gap-6 md:gap-8 px-6 md:px-12 pb-8 overflow-x-auto scroll-smooth focus:outline-none focus-visible:ring-2 focus-visible:ring-mega-red/50 focus-visible:ring-offset-2 focus-visible:ring-offset-mega-dark rounded-lg ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
         style={{
           scrollbarWidth: "none",
           msOverflowStyle: "none",

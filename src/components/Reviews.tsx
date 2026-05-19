@@ -26,6 +26,7 @@ export default function Reviews() {
   const t = useTranslation();
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
+  const [interactionKey, setInteractionKey] = useState(0);
 
   const next = useCallback(() => {
     setDirection(1);
@@ -37,10 +38,26 @@ export default function Reviews() {
     setCurrent((prev) => (prev - 1 + reviews.length) % reviews.length);
   }, []);
 
+  const goTo = useCallback((i: number) => {
+    setDirection(i > current ? 1 : -1);
+    setCurrent(i);
+    setInteractionKey((k) => k + 1);
+  }, [current]);
+
+  const handlePrev = useCallback(() => {
+    prev();
+    setInteractionKey((k) => k + 1);
+  }, [prev]);
+
+  const handleNext = useCallback(() => {
+    next();
+    setInteractionKey((k) => k + 1);
+  }, [next]);
+
   useEffect(() => {
     const timer = setInterval(next, 6000);
     return () => clearInterval(timer);
-  }, [next]);
+  }, [next, interactionKey]);
 
   const review = reviews[current];
 
@@ -116,7 +133,7 @@ export default function Reviews() {
         {/* Navigation */}
         <div className="flex items-center justify-center gap-4 mt-8">
           <button
-            onClick={prev}
+            onClick={handlePrev}
             className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:border-mega-gold/50 hover:bg-mega-gold/10 transition-all cursor-pointer"
             aria-label={t.reviews.prevReview}
           >
@@ -129,7 +146,7 @@ export default function Reviews() {
             {reviews.map((_, i) => (
               <button
                 key={i}
-                onClick={() => { setDirection(i > current ? 1 : -1); setCurrent(i); }}
+                onClick={() => goTo(i)}
                 className={`w-2 h-2 rounded-full transition-all duration-300 cursor-pointer ${
                   i === current ? "bg-mega-gold w-6" : "bg-white/20 hover:bg-white/40"
                 }`}
@@ -139,7 +156,7 @@ export default function Reviews() {
           </div>
 
           <button
-            onClick={next}
+            onClick={handleNext}
             className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:border-mega-gold/50 hover:bg-mega-gold/10 transition-all cursor-pointer"
             aria-label={t.reviews.nextReview}
           >
